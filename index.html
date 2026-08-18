@@ -1,0 +1,3826 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dwisyafitriproject - Hijau Emerald</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <link rel="shortcut icon" href="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <meta name="application-name" content="Dwisyaproject">
+  <meta name="apple-mobile-web-app-title" content="Dwisyaproject">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#046307">
+  <meta name="description" content="Dwisyafitriproject — portofolio, store, stockopname">
+  <meta name="msapplication-TileColor" content="#046307">
+  <meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png">
+  <script>
+    (function () {
+      var LOGO_URL = "https://raw.githubusercontent.com/Dwisya964/Dwisya964.gitub.io/main/logotoko.png";
+      var manifest = {
+        name: "Dwisyafitriproject",
+        short_name: "Dwisyaproject",
+        description: "PRODUK, PESANAN, ARUS KAS",
+        start_url: window.location.href,
+        display: "standalone",
+        orientation: "portrait",
+        background_color: "#046307",
+        theme_color: "#046307",
+        icons: [
+          { src: LOGO_URL, sizes: "192x192", type: "image/png" },
+          { src: LOGO_URL, sizes: "512x512", type: "image/png", purpose: "any maskable" }
+        ]
+      };
+      try {
+        var blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+      } catch (e) {}
+    })();
+  </script>
+  <!--
+    CDN bukan dependency tunggal. Setiap script kritis memiliki sumber cadangan.
+    Jangan memakai atribut crossorigin pada script UMD: beberapa browser akan
+    menolak script lintas domain ketika server CDN tidak mengirim header CORS.
+  -->
+  <link rel="preload" href="https://unpkg.com/react@18/umd/react.production.min.js" as="script">
+  <link rel="preload" href="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" as="script">
+  <link rel="preload" href="https://unpkg.com/@babel/standalone/babel.min.js" as="script">
+  <!-- Font: display=swap agar teks langsung muncul dengan fallback font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700;800&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700;800&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <script>
+    (function () {
+      'use strict';
+      var failedSources = {};
+
+      /*
+       * Dipanggil oleh onerror setiap kali CDN utama gagal. Sumber cadangan
+       * disimpan pada data-fallbacks dan dicoba satu per satu.
+       */
+      window.__dwisyaCdnFallback = function (script) {
+        var label = script.getAttribute('data-cdn-label') || script.src;
+        var sources = (script.getAttribute('data-fallbacks') || '')
+          .split('|')
+          .filter(Boolean);
+        var attempt = Number(script.getAttribute('data-cdn-attempt') || 0);
+        failedSources[label] = failedSources[label] || [];
+        failedSources[label].push(script.src);
+
+        if (attempt < sources.length) {
+          script.setAttribute('data-cdn-attempt', String(attempt + 1));
+          console.warn('[CDN] Sumber utama gagal untuk ' + label + '; mencoba cadangan ' + (attempt + 1) + '.');
+          script.src = sources[attempt];
+          return;
+        }
+
+        script.setAttribute('data-cdn-failed', 'true');
+        console.error('[CDN] Semua sumber gagal untuk ' + label + ':', failedSources[label]);
+        if (label === 'Tailwind') window.__dwisyaTailwindFailed = true;
+      };
+
+      window.__dwisyaCdnGuardTimer = window.setTimeout(function () {
+        var missing = [];
+        if (!window.React) missing.push('React');
+        if (!window.ReactDOM) missing.push('ReactDOM');
+        if (!window.Babel) missing.push('Babel');
+        if (missing.length) {
+          console.error(
+            '[CDN] Halaman tidak dapat dirender. Library yang belum tersedia:',
+            missing.join(', '),
+            'Periksa koneksi, Content Blocker, DNS, atau kebijakan CSP.'
+          );
+          var root = document.getElementById('root');
+          if (root) {
+            root.innerHTML =
+              '<div style="max-width:560px;margin:48px auto;padding:24px;font-family:Arial,sans-serif;' +
+              'border:2px solid #1d4ed8;background:#fff;text-align:center;color:#1e3a5f">' +
+              '<h1 style="margin:0 0 12px;font-size:22px">Gagal Memuat Halaman</h1>' +
+              '<p style="margin:0 0 18px;line-height:1.5">Library tampilan tidak dapat dimuat. ' +
+              'Periksa koneksi internet lalu coba muat ulang halaman.</p>' +
+              '<button onclick="location.reload()" style="padding:10px 16px;border:2px solid #1d4ed8;' +
+              'background:#2563eb;color:#fff;font-weight:700;cursor:pointer">Muat Ulang</button>' +
+              '</div>';
+          }
+        }
+      }, 18000);
+    })();
+  </script>
+  <!-- Tailwind bersifat opsional; CSS utility lokal di bawah tetap membuat layout terbaca. -->
+  <script
+    src="https://cdn.tailwindcss.com"
+    defer
+    data-cdn-label="Tailwind"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4|https://unpkg.com/@tailwindcss/browser@4"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <!-- React dan ReactDOM harus tersedia sebelum Babel. -->
+  <script
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+    data-cdn-label="React"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <script
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    data-cdn-label="ReactDOM"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <script
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+    data-cdn-label="Babel"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <!-- Library tambahan tidak boleh menghentikan katalog jika CDN sedang bermasalah. -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+    defer
+    data-cdn-label="jsPDF"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    defer
+    data-cdn-label="html2canvas"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+  <script
+    src="https://unpkg.com/lucide@latest"
+    defer
+    data-cdn-label="Lucide"
+    data-fallbacks="https://cdn.jsdelivr.net/npm/lucide@latest"
+    onerror="window.__dwisyaCdnFallback(this)">
+  </script>
+    <style>
+    /* ===== Dwisyafitriproject - Hijau Emerald ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      background-color: #ECFDF5 !important;
+      color: #064E3B !important;
+      margin: 0; padding: 0; -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .font-extrabold, .font-black {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      color: #064E3B !important;
+    }
+    .neo-border { border: 2px solid #059669 !important; border-radius: 8px !important; }
+    .neo-shadow { box-shadow: 4px 4px 0 #059669 !important; }
+    .neo-shadow-lg { box-shadow: 6px 6px 0 #059669 !important; }
+    .neo-shadow-sm { box-shadow: 2px 2px 0 #059669 !important; }
+    .neo-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #059669 !important; }
+
+    .bg-\[\#FFDD00\] { background-color: #059669 !important; color: #FFFFFF !important; }
+    .hover\:bg-yellow-400:hover { background-color: #047857 !important; color: #FFFFFF !important; }
+    .text-\[\#FFDD00\] { color: #059669 !important; }
+    .bg-\[\#FFFBCC\], .bg-yellow-50, .bg-yellow-100 { background-color: #D1FAE5 !important; }
+    .hover\:bg-yellow-50:hover { background-color: #ECFDF5 !important; }
+
+    .bg-\[\#F5F5F5\] { background-color: #ECFDF5 !important; }
+    .bg-white { background-color: #FFFFFF !important; }
+    .bg-gray-100 { background-color: #D1FAE5 !important; }
+    .bg-gray-50 { background-color: #ECFDF5 !important; }
+
+    .border-black { border-color: #059669 !important; }
+    .border-b-2 { border-color: #059669 !important; }
+    .border-gray-200 { border-color: #A7F3D0 !important; }
+    .border-gray-300 { border-color: #6EE7B7 !important; }
+    .divide-gray-200 > * + * { border-color: #A7F3D0 !important; }
+
+    .hover\:bg-gray-100:hover { background-color: #D1FAE5 !important; }
+    .hover\:bg-gray-200:hover { background-color: #ECFDF5 !important; }
+    .hover\:bg-green-50:hover { background-color: #ECFDF5 !important; }
+    .hover\:bg-red-50:hover { background-color: #ECFDF5 !important; }
+    .hover\:bg-yellow-50:hover { background-color: #ECFDF5 !important; }
+
+    input, select, textarea {
+      background-color: #FFFFFF !important;
+      border-color: #059669 !important;
+      color: #064E3B !important;
+    }
+    input::placeholder, textarea::placeholder { color: #34D399 !important; }
+    option { background-color: #FFFFFF !important; color: #064E3B !important; }
+
+    header { background-color: #FFFFFF !important; border-color: #059669 !important; }
+    footer { background-color: #064E3B !important; border-color: #059669 !important; }
+    footer p, footer .text-gray-500 { color: #6EE7B7 !important; }
+
+    .bg-black { background-color: #064E3B !important; }
+    .text-black { color: #064E3B !important; }
+    .text-white { color: #FFFFFF !important; }
+    .text-gray-500 { color: #065F46 !important; }
+    .text-gray-600 { color: #047857 !important; }
+    .text-gray-700 { color: #059669 !important; }
+    .text-gray-800 { color: #064E3B !important; }
+    .text-gray-400 { color: #065F46 !important; }
+
+    .bg-\[\#00E5FF\] { background-color: #10B981 !important; color: #FFFFFF !important; }
+    .hover\:bg-cyan-300:hover { background-color: #047857 !important; }
+    .bg-\[\#00E5A0\] { background-color: #059669 !important; color: #FFFFFF !important; }
+    .hover\:bg-emerald-400:hover { background-color: #047857 !important; }
+    .bg-\[\#25D366\] { background-color: #25D366 !important; color: #fff !important; }
+
+    /* Banner headers */
+    .bg-\[\#FFDD00\].neo-border.neo-shadow-lg.p-6.mb-8 {
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%) !important;
+      color: #FFFFFF !important;
+    }
+    .bg-\[\#00E5FF\].neo-border.neo-shadow-lg.p-6.mb-8 {
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%) !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Harga badge */
+    .font-mono.font-extrabold.text-lg { 
+      background-color: #064E3B !important;
+      color: #6EE7B7 !important;
+    }
+
+    /* Table header */
+    .bg-black.text-\[\#FFDD00\] { background-color: #064E3B !important; color: #6EE7B7 !important; }
+
+    /* Dashboard summary card aksen */
+    .bg-\[\#FFDD00\].neo-border.p-4.neo-shadow {
+      background-color: #059669 !important;
+    }
+    .bg-\[\#FFDD00\].neo-border.p-4.neo-shadow .text-black {
+      color: #FFFFFF !important;
+    }
+    .bg-\[\#FFDD00\].neo-border.p-4.neo-shadow span {
+      color: #FFFFFF !important;
+    }
+
+    /* Nav aktif */
+    .bg-\[\#FFDD00\].neo-shadow-sm { background-color: #059669 !important; color: #FFFFFF !important; }
+    .bg-\[\#00E5FF\].neo-shadow-sm { background-color: #059669 !important; color: #FFFFFF !important; }
+
+    /* Badge tersedia */
+    .bg-\[\#00E5A0\].text-black.neo-border {
+      background-color: #059669 !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Logo box */
+    .w-9.h-9.bg-\[\#FFDD00\] {
+      background-color: #059669 !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Upload label */
+    label.cursor-pointer.neo-border.bg-\[\#FFDD00\] {
+      background-color: #059669 !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Bulan selector */
+    .bg-\[\#FFFBCC\].neo-border { background-color: #D1FAE5 !important; color: #064E3B !important; }
+    .bg-\[\#FFFBCC\].neo-border select { color: #064E3B !important; }
+
+    /* Toast */
+    .bg-\[\#00E5FF\].text-black.neo-border { background-color: #10B981 !important; color: #FFFFFF !important; }
+
+    /* Card hover */
+    .bg-white.neo-border.neo-shadow.flex.flex-col { border-color: #059669 !important; }
+    .bg-white.neo-border.neo-shadow.flex.flex-col:hover { box-shadow: 6px 6px 0 #059669 !important; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #ECFDF5; }
+    ::-webkit-scrollbar-thumb { background: #059669; border-radius: 3px; }
+
+    
+    @keyframes produkMuncul { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .produk-card-anim { opacity: 0; animation: produkMuncul 0.38s ease forwards; }
+    @keyframes skeletonShimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+    
+    .skeleton-card {
+      background: #D1FAE5 !important; border-color: #6EE7B7 !important;
+      position: relative; overflow: hidden; height: 320px; border: 2px solid #6EE7B7; border-radius: 8px;
+    }
+    .skeleton-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(5,150,105,0.2) 50%, transparent 100%);
+      animation: skeletonShimmer 1.2s infinite;
+    }
+
+    
+    @media print {
+      @page { size: 58mm auto; margin: 0mm; }
+      html, body { margin: 0 !important; padding: 0 !important; }
+      body * { visibility: hidden; }
+      #print-receipt-container, #print-receipt-container * { visibility: visible; }
+      #print-receipt-container {
+        position: fixed !important; left: 0 !important; top: 0 !important;
+        width: 58mm !important; max-width: 58mm !important;
+        margin: 0 !important; padding: 2mm 3mm !important;
+        box-sizing: border-box !important; font-size: 10px !important;
+        overflow: visible !important; display: block !important;
+        background: #fff !important; color: #000 !important;
+      }
+    }
+    .receipt-paper { width: 58mm; max-width: 100%; margin: 0 auto; padding: 3mm 4mm; box-sizing: border-box; background: #fff; color: #000; }
+
+    .flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.block{display:block}.hidden{display:none}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.flex-1{flex:1 1 0%}.items-center{align-items:center}.items-start{align-items:flex-start}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.w-full{width:100%}.h-full{height:100%}.min-h-screen{min-height:100vh}.max-w-sm{max-width:24rem}.max-w-md{max-width:28rem}.max-w-7xl{max-width:80rem}.mx-auto{margin-left:auto;margin-right:auto}.text-center{text-align:center}.text-left{text-align:left}.text-right{text-align:right}.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}.inset-0{inset:0}.top-0{top:0}.right-3{right:.75rem}.z-10{z-index:10}.z-50{z-index:50}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.object-cover{object-fit:cover}.whitespace-nowrap{white-space:nowrap}.cursor-pointer{cursor:pointer}.border-collapse{border-collapse:collapse}.bg-transparent{background:transparent}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-black{font-weight:900}.font-medium{font-weight:500}.font-normal{font-weight:400}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.py-12{padding-top:3rem;padding-bottom:3rem}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.my-12{margin-top:3rem;margin-bottom:3rem}.space-y-4>*+*{margin-top:1rem}.space-y-6>*+*{margin-top:1.5rem}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media(min-width:768px){.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(min-width:1024px){.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  </style>
+</head>
+<body class="bg-[#F5F5F5] text-black min-h-screen flex flex-col">
+  <div id="root">
+    <div class="flex items-center justify-center min-h-screen font-bold text-lg">
+      Memuat Dwisyafitriproject...
+    </div>
+  </div>
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    function rp(n) {
+      const num = Number(n || 0);
+      return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    function fmtDate(iso, withTime = false) {
+      if (!iso) return '-';
+      try {
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return iso;
+        const pad = (v) => (v < 10 ? '0' + v : String(v));
+        let base = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+        if (withTime) {
+          base += ` ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        return base;
+      } catch {
+        return iso;
+      }
+    }
+
+    function cleanWaInput(val) {
+      let v = String(val || '').replace(/\D/g, '');
+      if (v.startsWith('0')) {
+        v = '62' + v.slice(1);
+      }
+      return v;
+    }
+  async function createReceiptPdf(sale) {
+  const JsPDF = window.jspdf && window.jspdf.jsPDF;
+  if (!JsPDF) {
+    throw new Error('Generator PDF belum siap. Silakan coba lagi.');
+  }
+  if (typeof html2canvas === 'undefined') {
+    throw new Error('html2canvas belum siap. Silakan coba lagi dalam beberapa detik.');
+  }
+
+  // Buat elemen struk tersembunyi untuk di-render ke canvas
+  const element = document.createElement('div');
+  element.style.cssText = [
+    'width:216px',           // ~58mm pada 96dpi — cukup untuk thermal 58mm
+    'padding:6px 7px 8px 7px',
+    'margin:0',
+    'box-sizing:border-box',
+    'font-family:\'Courier New\',Courier,monospace',
+    'font-size:11px',
+    'color:#000',
+    'background:#fff',
+    'line-height:1.35',
+  ].join(';');
+
+  const esc = (s) => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  element.innerHTML = `
+    <div style="text-align:center;font-weight:bold;font-size:13px;">DWISYAFITRIPROJECT</div>
+    <div style="text-align:center;font-size:9px;margin-bottom:3px;">STRUK PEMBAYARAN KASIR</div>
+    <div style="border-top:1px dashed #000;margin:3px 0;"></div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>No Trx:</span>
+      <span style="font-weight:bold;text-align:right;word-break:break-all;">${esc(sale.NO_TRANSAKSI || sale.ID || '-')}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>Tanggal:</span>
+      <span style="text-align:right;">${fmtDate(sale.TANGGAL, true)}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>Pembeli:</span>
+      <span style="font-weight:bold;text-align:right;">${esc(sale.NAMA_PEMBELI || 'Pelanggan Umum')}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>Metode:</span>
+      <span style="font-weight:bold;text-align:right;">${esc(String(sale.METODE || '-').toUpperCase())}</span>
+    </div>
+    <div style="border-top:1px dashed #000;margin:3px 0;"></div>
+    <div style="font-weight:bold;font-size:9px;margin-bottom:2px;">DETAIL PESANAN:</div>
+    <div style="font-weight:bold;word-break:break-word;font-size:10px;margin-bottom:1px;">${esc(sale.PRODUK || 'Tidak ada detail produk')}</div>
+    <div style="border-top:1px dashed #000;margin:3px 0;"></div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>Total Tagihan:</span>
+      <span style="font-weight:bold;">${rp(sale.HARGA)}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;">
+      <span>Bayar:</span>
+      <span>${rp(sale.BAYAR)}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:4px;margin:1px 0;font-weight:bold;font-size:11px;">
+      <span>Kembalian:</span>
+      <span>${rp(sale.KEMBALIAN)}</span>
+    </div>
+    <div style="border-top:1px dashed #000;margin:4px 0 3px 0;"></div>
+    <div style="text-align:center;font-size:9px;">Terima kasih telah berbelanja di<br>Dwisyafitriproject!</div>
+  `;
+
+  // Tempatkan di luar layar agar tidak mempengaruhi tampilan
+  element.style.position = 'fixed';
+  element.style.left = '-9999px';
+  element.style.top = '0';
+  document.body.appendChild(element);
+
+  let canvas;
+  try {
+    canvas = await html2canvas(element, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+    });
+  } finally {
+    document.body.removeChild(element);
+  }
+
+  const imgData = canvas.toDataURL('image/png');
+  // Lebar PDF = 48mm (efektif di dalam margin 58mm)
+  const paperWidth = 48;
+  const calculatedHeight = Math.ceil((canvas.height * paperWidth) / canvas.width);
+
+  const doc = new JsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: [paperWidth, calculatedHeight],
+  });
+
+  doc.addImage(imgData, 'PNG', 0, 0, paperWidth, calculatedHeight);
+
+  const filename = `struk-${sale.NO_TRANSAKSI || sale.ID || 'transaksi'}.pdf`
+    .replace(/[^a-zA-Z0-9._-]/g, '-');
+
+  return {
+    blob: doc.output('blob'),
+    dataUri: doc.output('datauristring'),
+    filename,
+  };
+}
+    function downloadReceiptPdf(pdf) {
+      const url = URL.createObjectURL(pdf.blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = pdf.filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function maskWa(wa) {
+      if (!wa || wa.length < 6) return wa;
+      return wa.slice(0, 4) + '•••' + wa.slice(-3);
+    }
+
+    function convertDriveLink(url) {
+      const rawUrl = String(url || '').trim();
+      if (!rawUrl) return '';
+      const match = rawUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://lh3.googleusercontent.com/d/${match[1]}`;
+      }
+      const matchParam = rawUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (matchParam && matchParam[1]) {
+        return `https://lh3.googleusercontent.com/d/${matchParam[1]}`;
+      }
+      return rawUrl;
+    }
+
+    function compressImage(file, callback) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 400;
+          let w = img.width;
+          let h = img.height;
+          if (w > h) {
+            if (w > MAX) {
+              h = Math.round((h * MAX) / w);
+              w = MAX;
+            }
+          } else {
+            if (h > MAX) {
+              w = Math.round((w * MAX) / h);
+              h = MAX;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, w, h);
+            callback(canvas.toDataURL('image/jpeg', 0.7));
+          } else {
+            callback(e.target.result);
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const API_URL = String(
+      window.DWISYA_API_URL ||
+      "https://script.google.com/macros/s/AKfycbyax9zc0a2p6HS3UMVFSyEwR3klhQTqYzYeNZ7zKCe2Kc0BqXNu9wDfOBVur32k9HdC/exec"
+    ).replace(/\/+$/, '');
+    const READ_ACTIONS = {
+      getPublicProduk: true,
+      getProduk: true,
+      getReview: true
+    };
+    const REQUEST_TIMEOUT_MS = 20000;
+
+    function apiErrorMessage(action, error) {
+      const raw = String(error && error.message ? error.message : error || 'Kesalahan jaringan');
+      const lower = raw.toLowerCase();
+      if (lower.indexOf('cors') >= 0 || lower.indexOf('failed to fetch') >= 0 ||
+          lower.indexOf('networkerror') >= 0 || lower === 'load failed') {
+        return (
+          'Koneksi ke Google Apps Script diblokir browser (kemungkinan CORS/redirect). ' +
+          'Pembacaan katalog sudah mencoba JSONP; pastikan deployment Web App dapat diakses Anyone. ' +
+          'Detail: ' + raw
+        );
+      }
+      if (lower.indexOf('timeout') >= 0) {
+        return 'Google Apps Script terlalu lama merespons (' + REQUEST_TIMEOUT_MS / 1000 + ' detik). Periksa deployment dan Spreadsheet. Detail: ' + raw;
+      }
+      return 'Gagal menghubungi Google Apps Script untuk aksi "' + action + '". Detail: ' + raw;
+    }
+
+    function logApiError(action, transport, error) {
+      console.error('[GAS][' + transport + '] Aksi "' + action + '" gagal.', {
+        endpoint: API_URL,
+        online: navigator.onLine,
+        error: error,
+        hint: apiErrorMessage(action, error)
+      });
+    }
+
+    function normalizeApiResult(value, action, transport) {
+      let result = value;
+      if (typeof result === 'string') {
+        try {
+          result = JSON.parse(result);
+        } catch (error) {
+          logApiError(action, transport, error);
+          return { ok: false, message: 'Respons Google Apps Script bukan JSON valid.' };
+        }
+      }
+      if (!result || typeof result !== 'object') {
+        return { ok: false, message: 'Respons kosong/tidak valid dari Google Apps Script.' };
+      }
+      if (result.ok === false) {
+        console.warn('[GAS][' + transport + '] Server mengembalikan error untuk "' + action + '":', result.message);
+      }
+      return result;
+    }
+
+    function gasCall(action, payload) {
+      // Jalur paling stabil bila index.html sedang dijalankan di Apps Script.
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        return gasCallGoogleScript(action, payload).catch(function (error) {
+          logApiError(action, 'google.script.run', error);
+          return READ_ACTIONS[action]
+            ? gasCallJsonp(action, payload).catch(function (jsonpError) {
+                logApiError(action, 'jsonp', jsonpError);
+                return gasCallFetch(action, payload);
+              })
+            : gasCallFetch(action, payload);
+        });
+      }
+
+      // GitHub Pages tidak dapat membaca respons ContentService lewat fetch
+      // karena Apps Script melakukan redirect dan tidak menyediakan header CORS.
+      // JSONP adalah jalur lintas-domain yang aman untuk operasi baca.
+      if (READ_ACTIONS[action]) {
+        return gasCallJsonp(action, payload).catch(function (jsonpError) {
+          logApiError(action, 'jsonp', jsonpError);
+          return gasCallFetch(action, payload);
+        });
+      }
+
+      // Operasi tulis memakai fetch/XHR. Ini berhasil jika endpoint berada di
+      // proxy CORS atau browser menerima CORS dari server; jika tidak, pesan
+      // error dibuat eksplisit agar tidak dianggap sebagai data yang tersimpan.
+      return gasCallFetch(action, payload);
+    }
+
+    function gasCallGoogleScript(action, payload) {
+      return new Promise(function (resolve, reject) {
+        google.script.run
+          .withSuccessHandler(function (result) {
+            resolve(normalizeApiResult(result, action, 'google.script.run'));
+          })
+          .withFailureHandler(function (error) {
+            reject(new Error(error && error.message ? error.message : String(error || 'google.script.run gagal')));
+          })
+          .handleActionForClient(action, payload == null ? null : payload);
+      });
+    }
+
+    function gasCallJsonp(action, payload) {
+      return new Promise(function (resolve, reject) {
+        var callbackName = '__dwisya_jsonp_' + Date.now() + '_' +
+          Math.random().toString(36).slice(2);
+        var script = document.createElement('script');
+        var settled = false;
+        var query = API_URL +
+          '?action=' + encodeURIComponent(action) +
+          '&callback=' + encodeURIComponent(callbackName) +
+          (payload == null ? '' : '&payload=' + encodeURIComponent(JSON.stringify(payload))) +
+          '&_=' + Date.now();
+        var timeoutId = setTimeout(function () {
+          finish(new Error('JSONP timeout: ' + query.split('?')[0]));
+        }, REQUEST_TIMEOUT_MS);
+
+        function cleanup() {
+          clearTimeout(timeoutId);
+          if (script.parentNode) script.parentNode.removeChild(script);
+          try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+        }
+
+        function finish(error, value) {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          if (error) reject(error);
+          else resolve(normalizeApiResult(value, action, 'jsonp'));
+        }
+
+        window[callbackName] = function (value) {
+          finish(null, value);
+        };
+        script.onerror = function () {
+          finish(new Error('Endpoint JSONP tidak dapat dimuat. Periksa URL deployment Apps Script.'));
+        };
+        script.async = true;
+        script.src = query;
+        document.head.appendChild(script);
+      });
+    }
+
+    function fetchWithTimeout(url, options, ms) {
+      var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var requestOptions = Object.assign({}, options);
+      if (controller) requestOptions.signal = controller.signal;
+
+      return new Promise(function (resolve, reject) {
+        var settled = false;
+        var timer = setTimeout(function () {
+          settled = true;
+          if (controller) controller.abort();
+          reject(new Error('timeout'));
+        }, ms);
+
+        if (typeof fetch !== 'function') {
+          clearTimeout(timer);
+          reject(new Error('fetch tidak tersedia di browser ini'));
+          return;
+        }
+
+        fetch(url, requestOptions).then(function (response) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          resolve(response);
+        }).catch(function (error) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          reject(error);
+        });
+      });
+    }
+
+    function parseJsonResponse(response, action, transport) {
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status + ' ' + (response.statusText || ''));
+      }
+      return response.text().then(function (text) {
+        var trimmed = String(text || '').replace(/^\uFEFF/, '').trim();
+        if (!trimmed) throw new Error('Respons server kosong.');
+        try {
+          return normalizeApiResult(JSON.parse(trimmed), action, transport);
+        } catch (error) {
+          throw new Error('Respons server bukan JSON valid: ' + error.message);
+        }
+      });
+    }
+
+    function gasCallXhr(action, payload) {
+      return new Promise(function (resolve, reject) {
+        if (typeof XMLHttpRequest === 'undefined') {
+          reject(new Error('fetch dan XMLHttpRequest tidak tersedia.'));
+          return;
+        }
+        var xhr = new XMLHttpRequest();
+        var body = JSON.stringify({ action: action, payload: payload == null ? null : payload });
+        var timer = setTimeout(function () {
+          xhr.abort();
+          reject(new Error('timeout'));
+        }, REQUEST_TIMEOUT_MS);
+
+        xhr.open('POST', API_URL, true);
+        xhr.withCredentials = false;
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState !== 4) return;
+          clearTimeout(timer);
+          if (xhr.status < 200 || xhr.status >= 300) {
+            reject(new Error('HTTP ' + xhr.status + ' ' + (xhr.statusText || '')));
+            return;
+          }
+          try {
+            resolve(normalizeApiResult(JSON.parse(xhr.responseText || ''), action, 'xhr'));
+          } catch (error) {
+            reject(new Error('Respons XHR bukan JSON valid: ' + error.message));
+          }
+        };
+        xhr.onerror = function () {
+          clearTimeout(timer);
+          reject(new Error('XHR network/CORS error'));
+        };
+        xhr.ontimeout = function () {
+          clearTimeout(timer);
+          reject(new Error('timeout'));
+        };
+        xhr.send(body);
+      });
+    }
+
+    function gasCallFetch(action, payload) {
+      var body = JSON.stringify({ action: action, payload: payload == null ? null : payload });
+      var fetchOptions = {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        redirect: 'follow',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: body
+      };
+
+      function tryPost() {
+        return fetchWithTimeout(API_URL, fetchOptions, REQUEST_TIMEOUT_MS)
+          .then(function (response) {
+            return parseJsonResponse(response, action, 'fetch');
+          });
+      }
+
+      function tryGet() {
+        var url = API_URL + '?action=' + encodeURIComponent(action) +
+          (payload == null ? '' : '&payload=' + encodeURIComponent(JSON.stringify(payload))) +
+          '&_=' + Date.now();
+        return fetchWithTimeout(url, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'omit',
+          redirect: 'follow',
+          cache: 'no-store'
+        }, REQUEST_TIMEOUT_MS).then(function (response) {
+          return parseJsonResponse(response, action, 'fetch-get');
+        });
+      }
+
+      return tryPost().catch(function (postError) {
+        logApiError(action, 'fetch-post', postError);
+        // GET hanya dipakai untuk baca. Mengulang write sebagai GET bisa
+        // membuat transaksi/produk tersimpan dua kali jika POST sebenarnya
+        // sudah diterima server tetapi responsnya diblokir CORS.
+        if (READ_ACTIONS[action]) {
+          return tryGet().catch(function (getError) {
+            logApiError(action, 'fetch-get', getError);
+            throw getError;
+          });
+        }
+        return gasCallXhr(action, payload).catch(function (xhrError) {
+          logApiError(action, 'xhr', xhrError);
+          return {
+            ok: false,
+            errorCode: 'CORS_OR_NETWORK_ERROR',
+            message: apiErrorMessage(action, xhrError)
+          };
+        });
+      }).catch(function (error) {
+        logApiError(action, 'fetch', error);
+        return {
+          ok: false,
+          errorCode: 'CORS_OR_NETWORK_ERROR',
+          message: apiErrorMessage(action, error)
+        };
+      });
+    }
+
+    // Cache dipakai sebagai stale-while-revalidate: tampilkan data lama
+    // secepatnya, tetapi tetap minta versi terbaru dari server.
+    const CACHE_TTL_MS = 5 * 60 * 1000;
+    const CACHE_PREFIX = 'dwisya_cache_';
+
+    // SmartCache: coba localStorage → sessionStorage → memori.
+    // Beberapa browser mobile (mode incognito, WebView Gmail, in-app browser)
+    // melempar SecurityError saat mengakses localStorage.
+    // Dengan fallback berlapis, cache tetap bekerja meskipun storage diblokir.
+    const SmartCache = (function() {
+      // Deteksi storage yang tersedia saat inisialisasi
+      function detectStorage() {
+        const TEST_KEY = '__dwisya_test__';
+        try {
+          localStorage.setItem(TEST_KEY, '1');
+          localStorage.removeItem(TEST_KEY);
+          return localStorage;
+        } catch (_) {}
+        try {
+          sessionStorage.setItem(TEST_KEY, '1');
+          sessionStorage.removeItem(TEST_KEY);
+          return sessionStorage;
+        } catch (_) {}
+        // Tidak ada storage tersedia — pakai Map in-memory (hilang saat tab ditutup)
+        return null;
+      }
+      const _storage = detectStorage();
+      const _mem = {}; // fallback memori
+
+      function rawGet(k) {
+        if (_storage) return _storage.getItem(k);
+        return _mem[k] || null;
+      }
+      function rawSet(k, v) {
+        if (_storage) {
+          try {
+            _storage.setItem(k, v);
+          } catch (_) {
+            // Storage penuh: hapus cache lama lalu coba lagi
+            try {
+              const keys = Object.keys(_storage).filter(x => x.startsWith(CACHE_PREFIX));
+              keys.forEach(x => _storage.removeItem(x));
+              _storage.setItem(k, v);
+            } catch (_2) { _mem[k] = v; }
+          }
+        } else {
+          _mem[k] = v;
+        }
+      }
+      function rawRemove(k) {
+        if (_storage) { try { _storage.removeItem(k); } catch (_) {} }
+        delete _mem[k];
+      }
+
+      return {
+        get(key) {
+          try {
+            const raw = rawGet(CACHE_PREFIX + key);
+            if (!raw) return null;
+            const { data, ts, ttl } = JSON.parse(raw);
+            if (Date.now() - ts > (ttl || CACHE_TTL_MS)) {
+              rawRemove(CACHE_PREFIX + key);
+              return null;
+            }
+            return data;
+          } catch { return null; }
+        },
+        // Cadangan stale dipakai khusus agar katalog tetap terlihat ketika
+        // Apps Script sedang timeout, diblokir CORS, atau deployment lama
+        // masih tersaji. Cache hanya boleh diganti oleh respons server valid.
+        getStale(key) {
+          try {
+            const raw = rawGet(CACHE_PREFIX + key);
+            if (!raw) return null;
+            return JSON.parse(raw).data;
+          } catch { return null; }
+        },
+        set(key, data, ttl = CACHE_TTL_MS) {
+          try {
+            rawSet(CACHE_PREFIX + key, JSON.stringify({ data, ts: Date.now(), ttl }));
+          } catch (_) {}
+        },
+        clear(key) { rawRemove(CACHE_PREFIX + key); },
+        clearAll() {
+          if (_storage) {
+            try {
+              Object.keys(_storage).forEach(k => { if (k.startsWith(CACHE_PREFIX)) _storage.removeItem(k); });
+            } catch (_) {}
+          }
+          Object.keys(_mem).forEach(k => { if (k.startsWith(CACHE_PREFIX)) delete _mem[k]; });
+        }
+      };
+    })();
+
+    const INDO_MONTHS = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    function getMonthYearStr(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      return `${INDO_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function Toast({ toast }) {
+      if (!toast) return null;
+      return (
+        <div className={`fixed bottom-5 right-5 z-50 neo-border neo-shadow-lg px-4 py-3 font-bold text-sm flex items-center gap-2 ${
+          toast.type === 'error' ? 'bg-red-400 text-black' : 'bg-[#00E5FF] text-black'
+        }`}>
+          <span>{toast.type === 'error' ? '❌' : '✅'}</span>
+          <span>{toast.message}</span>
+        </div>
+      );
+    }
+
+    function ConfirmModal({ isOpen, title, message, onConfirm, onCancel }) {
+      if (!isOpen) return null;
+      return (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white neo-border neo-shadow-lg p-6 max-w-sm w-full">
+            <h3 className="font-extrabold text-lg mb-2">{title || 'Konfirmasi'}</h3>
+            <p className="text-sm font-medium text-gray-700 mb-6">{message}</p>
+            <div className="flex gap-3 justify-end">
+              <button onClick={onCancel} className="neo-border px-4 py-2 text-xs font-extrabold bg-gray-100 hover:bg-gray-200">
+                Batal
+              </button>
+              <button onClick={onConfirm} className="neo-border px-4 py-2 text-xs font-extrabold bg-red-500 text-white hover:bg-red-600">
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function Header({ currentPage, setCurrentPage, isAdminLoggedIn, onOpenLogin, onLogout }) {
+      return (
+        <header className="bg-white neo-border border-t-0 border-x-0 sticky top-0 z-40">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div onClick={() => setCurrentPage('katalog')} className="cursor-pointer flex items-center gap-2">
+              <div className="w-9 h-9 bg-[#FFDD00] neo-border neo-shadow-sm flex items-center justify-center font-extrabold text-lg">
+                ⌁
+              </div>
+              <div>
+                <h1 className="font-extrabold text-xl leading-none tracking-tight">Dwisyafitriproject</h1>
+                <p className="text-[10px] font-bold text-gray-500 tracking-wider">PRODUK, PESANAN, ARUS KAS</p>
+              </div>
+            </div>
+
+            <nav className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage('katalog')}
+                className={`neo-border px-3 py-1.5 text-xs font-extrabold transition-all ${
+                  currentPage === 'katalog' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+                }`}
+              >
+                Katalog Produk
+              </button>
+              <button
+                onClick={() => setCurrentPage('ulasan')}
+                className={`neo-border px-3 py-1.5 text-xs font-extrabold transition-all ${
+                  currentPage === 'ulasan' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+                }`}
+              >
+                Ulasan Pelanggan
+              </button>
+
+              {isAdminLoggedIn ? (
+                <div className="flex items-center gap-2 pl-2 border-l border-gray-300">
+                  <button
+                    onClick={() => setCurrentPage('admin')}
+                    className={`neo-border px-3 py-1.5 text-xs font-extrabold transition-all ${
+                      currentPage === 'admin' ? 'bg-[#00E5FF] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+                    }`}
+                  >
+                    Dashboard Admin
+                  </button>
+                  <button
+                    onClick={onLogout}
+                    className="neo-border px-2.5 py-1.5 text-xs font-extrabold bg-red-100 hover:bg-red-200 text-red-700"
+                    title="Keluar Admin"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={onOpenLogin}
+                  className="neo-border px-3 py-1.5 text-xs font-extrabold bg-black text-white neo-shadow-sm hover:bg-gray-800"
+                >
+                  Login Admin
+                </button>
+              )}
+            </nav>
+          </div>
+        </header>
+      );
+    }
+
+    function Footer() {
+      return (
+        <footer className="mt-auto bg-white neo-border border-b-0 border-x-0 py-6">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <p className="font-extrabold text-sm">Dwisyafitriproject&copy; {new Date().getFullYear()}</p>
+            <p className="text-xs font-medium text-gray-500 mt-1">
+              Created by : Dwi syafitri | 088289369002
+            </p>
+          </div>
+        </footer>
+      );
+    }
+
+    function StrukModal({ isOpen, sale, onClose }) {
+      const [isShareOpen, setIsShareOpen] = useState(false);
+      const [sharePhone, setSharePhone] = useState('');
+      const [isSharing, setIsSharing] = useState(false);
+      const [isDownloading, setIsDownloading] = useState(false);
+      const [downloadError, setDownloadError] = useState('');
+
+      useEffect(() => {
+        if (isOpen && sale) {
+          setSharePhone(cleanWaInput(sale.WHATSAPP || ''));
+          setIsShareOpen(false);
+          setIsSharing(false);
+          setIsDownloading(false);
+          setDownloadError('');
+        }
+      }, [isOpen, sale]);
+
+      if (!isOpen || !sale) return null;
+
+      const handlePrint = () => {
+        // Buat popup window khusus cetak — menghindari kertas blank & konten terpotong
+        const printWin = window.open('', '_blank', 'width=400,height=600');
+        if (!printWin) {
+          alert('Mohon izinkan pop-up browser untuk mencetak struk.');
+          return;
+        }
+        const produkHtml = (sale.PRODUK || 'Tidak ada detail produk')
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const noTrx = (sale.NO_TRANSAKSI || sale.ID || '-')
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const tglText = fmtDate(sale.TANGGAL, true);
+        const pembeli = (sale.NAMA_PEMBELI || 'Pelanggan Umum')
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const metode = (String(sale.METODE || '-').toUpperCase())
+          .replace(/&/g, '&amp;');
+
+        printWin.document.write(`<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Struk</title>
+<style>
+  /*
+   * Printer thermal 58mm memiliki area CETAK EFEKTIF ~48mm.
+   * Margin fisik kiri+kanan ~5mm per sisi tidak bisa dicetak.
+   * Solusi: gunakan lebar konten 46mm dengan margin auto,
+   * pakai tabel fixed-layout agar kolom tidak melampaui batas,
+   * dan font kecil agar teks muat dalam 1 baris.
+   */
+  @page {
+    size: 58mm auto;
+    margin: 0mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 58mm;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+  body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5px;
+    color: #000;
+    line-height: 1.4;
+  }
+  /* Area cetak aman: 46mm, di-center dalam 58mm */
+  .wrap {
+    width: 46mm;
+    margin: 0 auto;
+    padding: 2mm 0 3mm 0;
+  }
+  .title {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    font-size: 8px;
+    text-align: center;
+    margin-bottom: 2px;
+    letter-spacing: 0.3px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 2px 0;
+  }
+  /* Tabel 2 kolom: label 40% | nilai 60% — teks tidak overflow */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  td {
+    padding: 1px 0;
+    vertical-align: top;
+    font-size: 8.5px;
+    word-break: break-word;
+  }
+  td.lbl {
+    width: 40%;
+    color: #333;
+  }
+  td.val {
+    width: 60%;
+    text-align: right;
+    font-weight: bold;
+  }
+  .section-lbl {
+    font-size: 8px;
+    font-weight: bold;
+    margin: 2px 0 1px 0;
+    text-transform: uppercase;
+  }
+  .produk {
+    font-weight: bold;
+    font-size: 9px;
+    word-break: break-word;
+    margin-bottom: 1px;
+  }
+  .total-val {
+    font-size: 10px;
+    font-weight: bold;
+  }
+  .footer {
+    font-size: 8px;
+    text-align: center;
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">DWISYAFITRIPROJECT</div>
+  <div class="subtitle">STRUK PEMBAYARAN KASIR</div>
+  <hr class="divider">
+  <table>
+    <tr><td class="lbl">No Trx</td><td class="val">${noTrx}</td></tr>
+    <tr><td class="lbl">Tanggal</td><td class="val">${tglText}</td></tr>
+    <tr><td class="lbl">Pembeli</td><td class="val">${pembeli}</td></tr>
+    <tr><td class="lbl">Metode</td><td class="val">${metode}</td></tr>
+  </table>
+  <hr class="divider">
+  <div class="section-lbl">Detail Pesanan:</div>
+  <div class="produk">${produkHtml}</div>
+  <hr class="divider">
+  <table>
+    <tr><td class="lbl">Total Tagihan</td><td class="val">${rp(sale.HARGA)}</td></tr>
+    <tr><td class="lbl">Bayar</td><td class="val">${rp(sale.BAYAR)}</td></tr>
+    <tr><td class="lbl">Kembalian</td><td class="val total-val">${rp(sale.KEMBALIAN)}</td></tr>
+  </table>
+  <hr class="divider">
+  <div class="footer">Terima kasih telah berbelanja di<br>Dwisyafitriproject!</div>
+</div>
+</body>
+</html>`);
+        printWin.document.close();
+        // Tunggu render selesai lalu print & tutup
+        printWin.onload = () => {
+          printWin.focus();
+          printWin.print();
+          setTimeout(() => printWin.close(), 800);
+        };
+        // Fallback jika onload tidak terpanggil (beberapa browser)
+        setTimeout(() => {
+          if (!printWin.closed) {
+            printWin.focus();
+            printWin.print();
+            setTimeout(() => printWin.close(), 800);
+          }
+        }, 600);
+      };
+
+      const handleDownloadPdf = async () => {
+        setDownloadError('');
+        setIsDownloading(true);
+        try {
+          const pdf = await createReceiptPdf(sale);
+          downloadReceiptPdf(pdf);
+        } catch (err) {
+          setDownloadError(err?.message || 'Gagal membuat PDF. Pastikan halaman sudah sepenuhnya dimuat.');
+        } finally {
+          setIsDownloading(false);
+        }
+      };
+
+      const handleSharePdf = async () => {
+        const phone = cleanWaInput(sharePhone);
+        if (phone.length < 8) {
+          alert('Masukkan nomor WhatsApp tujuan yang valid.');
+          return;
+        }
+
+        setIsSharing(true);
+        try {
+          const pdf = await createReceiptPdf(sale);
+          const result = await gasCall('uploadReceiptPdfToDrive', {
+            base64: pdf.dataUri,
+            filename: pdf.filename,
+            folderName: 'Struk Transaksi Dwisyafitriproject',
+            receiptData: sale,
+          });
+
+          if (!result || !result.ok) {
+            throw new Error(result?.message || 'Gagal mengupload PDF ke Google Drive.');
+          }
+
+          const driveUrl = result.fileUrl;
+          const totalBelanja = typeof sale.HARGA === 'number'
+            ? sale.HARGA.toLocaleString('id-ID')
+            : String(sale.HARGA || '0');
+          const message = [
+            `Halo ${sale.NAMA_PEMBELI || 'Pelanggan'}, terima kasih sudah berbelanja di Dwisyafitriproject! 🙏`,
+            ``,
+            `Berikut detail transaksi Anda:`,
+            `📄 No. Transaksi : ${sale.NO_TRANSAKSI || sale.ID || '-'}`,
+            `💰 Total Belanja  : Rp ${totalBelanja}`,
+            ``,
+            `Struk PDF Anda dapat diunduh melalui link berikut:`,
+            driveUrl,
+            ``,
+            `Semoga puas dengan pelayanan kami! 😊`,
+          ].join('\n');
+
+          const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+          window.open(waUrl, '_blank');
+          setIsShareOpen(false);
+        } catch (error) {
+          alert(error?.message || 'Gagal mengirim struk PDF.');
+        } finally {
+          setIsSharing(false);
+        }
+      };
+
+      return (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white neo-border neo-shadow-lg p-4 max-w-sm w-full relative">
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 w-7 h-7 bg-gray-200 neo-border font-bold text-xs flex items-center justify-center hover:bg-gray-300"
+            >
+              ✕
+            </button>
+
+            <div id="print-receipt-container" className="receipt-paper text-center">
+              <div className="border-b-2 border-black pb-3 mb-3">
+                <h2 className="font-extrabold text-xl uppercase tracking-wider">Dwisyafitriproject</h2>
+                <p className="text-xs font-bold text-gray-600">STRUK PEMBAYARAN KASIR</p>
+              </div>
+
+              <div className="text-left text-xs font-mono space-y-1 mb-4 border-b border-gray-300 pb-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">No Trx:</span>
+                  <span className="font-bold">{sale.NO_TRANSAKSI || sale.ID}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Tanggal:</span>
+                  <span>{fmtDate(sale.TANGGAL, true)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Pembeli:</span>
+                  <span className="font-bold">{sale.NAMA_PEMBELI || 'Pelanggan Umum'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Metode:</span>
+                  <span className="font-bold uppercase">{sale.METODE || '-'}</span>
+                </div>
+              </div>
+
+              <div className="text-left mb-4 border-b border-gray-300 pb-3">
+                <div className="text-[11px] font-bold text-gray-500 uppercase mb-1">Detail Pesanan:</div>
+                <div className="receipt-product font-bold text-sm">{sale.PRODUK || 'Tidak ada detail produk'}</div>
+              </div>
+
+              <div className="text-left text-xs font-mono space-y-1 mb-6">
+                <div className="flex justify-between">
+                  <span>Total Tagihan:</span>
+                  <span className="font-bold">{rp(sale.HARGA)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Bayar:</span>
+                  <span>{rp(sale.BAYAR)}</span>
+                </div>
+                <div className="flex justify-between text-sm font-extrabold border-t pt-1">
+                  <span>Kembalian:</span>
+                  <span>{rp(sale.KEMBALIAN)}</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] font-bold text-gray-500 mb-4">
+                Terima kasih telah berbelanja di Dwisyafitriproject!
+              </p>
+            </div>
+
+            {/* Tombol Unduh PDF langsung */}
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isDownloading}
+              className="w-full mt-3 bg-[#00E5A0] neo-border neo-shadow-sm py-2 text-xs font-extrabold hover:bg-emerald-400 disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              {isDownloading ? 'Membuat PDF...' : 'Unduh Struk PDF'}
+            </button>
+
+            {downloadError && (
+              <p className="text-[11px] text-red-600 font-bold mt-1 text-center">{downloadError}</p>
+            )}
+
+            {isShareOpen && (
+              <div className="mt-3 neo-border bg-[#E8FFF0] p-3">
+                <label className="block text-xs font-extrabold uppercase mb-1">
+                  Nomor WhatsApp Tujuan
+                </label>
+                <input
+                  type="tel"
+                  value={sharePhone}
+                  onChange={(e) => setSharePhone(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSharePdf();
+                  }}
+                  placeholder="08123456789"
+                  autoFocus
+                  className="w-full neo-border px-3 py-2 text-sm font-bold outline-none focus:neo-shadow bg-white"
+                />
+                <p className="text-[10px] text-gray-600 mt-1">
+                  Nomor 08 otomatis diubah ke format internasional +62.
+                </p>
+                <button
+                  onClick={handleSharePdf}
+                  disabled={isSharing}
+                  className="w-full mt-2 bg-[#25D366] neo-border neo-shadow-sm py-2 text-xs font-extrabold hover:bg-green-400 disabled:opacity-50"
+                >
+                  {isSharing ? 'Mengupload ke Drive...' : 'Kirim PDF ke WhatsApp'}
+                </button>
+              </div>
+            )}
+
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={handlePrint}
+                className="flex-1 bg-[#FFDD00] neo-border neo-shadow-sm py-2 text-xs font-extrabold hover:bg-yellow-400"
+              >
+                Cetak 58 mm
+              </button>
+              <button
+                onClick={() => setIsShareOpen((value) => !value)}
+                className="bg-[#25D366] neo-border neo-shadow-sm px-3 py-2 text-xs font-extrabold hover:bg-green-400"
+                title="Kirim struk PDF ke WhatsApp"
+                aria-label="Kirim struk PDF ke WhatsApp"
+              >
+                <svg
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </button>
+              <button
+                onClick={onClose}
+                className="neo-border px-4 py-2 text-xs font-extrabold bg-gray-100 hover:bg-gray-200"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function CatalogProductCard({ product, onSelectDetail, onPesanWa }) {
+      const [currentIdx, setCurrentIdx] = useState(0);
+
+      const rawImgs = [product.FOTO_URL, product.FOTO_URL2, product.FOTO_URL3].filter(Boolean);
+      const imgs = rawImgs.map(convertDriveLink);
+      const displayImgs = imgs.length > 0 ? imgs : ['https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'];
+
+      useEffect(() => {
+        if (displayImgs.length <= 1) return undefined;
+        const timer = setInterval(() => {
+          setCurrentIdx((prev) => (prev + 1) % displayImgs.length);
+        }, 4600);
+        return () => clearInterval(timer);
+      }, [displayImgs.length]);
+
+      const handlePrev = (e) => {
+        e.stopPropagation();
+        setCurrentIdx((prev) => (prev - 1 + displayImgs.length) % displayImgs.length);
+      };
+
+      const handleNext = (e) => {
+        e.stopPropagation();
+        setCurrentIdx((prev) => (prev + 1) % displayImgs.length);
+      };
+
+      return (
+        <div className="bg-white neo-border neo-shadow flex flex-col hover:-translate-y-1 transition-all duration-150 group">
+          <div className="relative h-48 bg-gray-100 overflow-hidden border-b-2 border-black select-none">
+            <div
+              className="flex h-full transition-transform duration-300 ease-out"
+              style={{ transform: `translateX(-${currentIdx * 100}%)` }}
+            >
+              {displayImgs.map((imgUrl, i) => (
+                <img
+                  key={i}
+                  src={imgUrl}
+                  alt={`${product.NAMA} - Foto ${i + 1}`}
+                  className="min-w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src =
+                      'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500';
+                  }}
+                />
+              ))}
+            </div>
+
+            <span className="absolute top-2 right-2 px-2 py-0.5 text-[10px] font-extrabold neo-border uppercase bg-[#00E5A0] text-black">
+              Tersedia
+            </span>
+
+            {displayImgs.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 bg-black text-[#FFDD00] neo-border flex items-center justify-center font-extrabold hover:bg-[#FFDD00] hover:text-black z-10 text-xs"
+                  aria-label="Foto sebelumnya"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 bg-black text-[#FFDD00] neo-border flex items-center justify-center font-extrabold hover:bg-[#FFDD00] hover:text-black z-10 text-xs"
+                  aria-label="Foto selanjutnya"
+                >
+                  ›
+                </button>
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+                  {displayImgs.map((_, dotIdx) => (
+                    <button
+                      key={dotIdx}
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setCurrentIdx(dotIdx); }}
+                      className={`w-2 h-2 neo-border transition-all ${
+                        dotIdx === currentIdx ? 'bg-[#FFDD00]' : 'bg-white/80'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="p-4 flex flex-col flex-1">
+            <h3 className="font-extrabold text-base leading-snug mb-1 text-black">{product.NAMA}</h3>
+            <p className="font-mono font-extrabold text-lg text-[#00E5FF] bg-black px-2 py-0.5 inline-block self-start mb-3 neo-border">
+              {rp(product.HARGA)}
+            </p>
+            <p className="text-xs text-gray-600 font-medium line-clamp-2 mb-4 flex-1">
+              {product.DESKRIPSI || 'Produk berkualitas tinggi dari toko kami.'}
+            </p>
+
+            <div className="flex gap-2 pt-2 border-t border-gray-200">
+              <button
+                onClick={() => onSelectDetail(product)}
+                className="flex-1 bg-gray-100 neo-border py-1.5 text-xs font-extrabold hover:bg-gray-200"
+              >
+                Detail
+              </button>
+              {product.LINK ? (
+                <a
+                  href={product.LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-[#FFDD00] neo-border py-1.5 text-xs font-extrabold hover:bg-yellow-400 text-center flex items-center justify-center text-black"
+                >
+                  Pesan
+                </a>
+              ) : (
+                <button
+                  onClick={() => onPesanWa(product)}
+                  className="flex-1 bg-[#00E5A0] neo-border py-1.5 text-xs font-extrabold hover:bg-emerald-400 text-center text-black"
+                >
+                  Pesan WA
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ProductDetailModal({ product, onClose, onPesanWa }) {
+      const [currentIdx, setCurrentIdx] = useState(0);
+
+      if (!product) return null;
+
+      const rawImgs = [product.FOTO_URL, product.FOTO_URL2, product.FOTO_URL3].filter(Boolean);
+      const imgs = rawImgs.map(convertDriveLink);
+      const displayImgs = imgs.length > 0 ? imgs : ['https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500'];
+
+      const handlePrev = () => {
+        setCurrentIdx((prev) => (prev - 1 + displayImgs.length) % displayImgs.length);
+      };
+
+      const handleNext = () => {
+        setCurrentIdx((prev) => (prev + 1) % displayImgs.length);
+      };
+
+      return (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white neo-border neo-shadow-lg p-6 max-w-md w-full relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 w-7 h-7 bg-gray-200 neo-border font-bold text-xs flex items-center justify-center hover:bg-gray-300"
+            >
+              ✕
+            </button>
+
+            <h3 className="font-black text-xl mb-3 pr-8 text-black">{product.NAMA}</h3>
+
+            <div className="relative h-60 bg-gray-100 neo-border mb-4 overflow-hidden select-none">
+              <div
+                className="flex h-full transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentIdx * 100}%)` }}
+              >
+                {displayImgs.map((imgUrl, i) => (
+                  <img
+                    key={i}
+                    src={imgUrl}
+                    alt={`${product.NAMA} - Foto ${i + 1}`}
+                    className="min-w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500';
+                    }}
+                  />
+                ))}
+              </div>
+
+              {displayImgs.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black text-[#FFDD00] neo-border flex items-center justify-center font-extrabold hover:bg-[#FFDD00] hover:text-black z-10 text-xs"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black text-[#FFDD00] neo-border flex items-center justify-center font-extrabold hover:bg-[#FFDD00] hover:text-black z-10 text-xs"
+                  >
+                    ›
+                  </button>
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {displayImgs.map((_, dotIdx) => (
+                      <button
+                        key={dotIdx}
+                        type="button"
+                        onClick={() => setCurrentIdx(dotIdx)}
+                        className={`w-3 h-3 neo-border transition-all ${
+                          dotIdx === currentIdx ? 'bg-[#FFDD00]' : 'bg-white/80'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="font-mono font-extrabold text-xl text-black mb-3">
+              {rp(product.HARGA)}
+            </div>
+
+            <p className="text-sm font-medium text-gray-700 mb-6 whitespace-pre-line leading-relaxed">
+              {product.DESKRIPSI || 'Belum ada deskripsi lengkap untuk produk ini.'}
+            </p>
+
+            <div className="flex flex-col gap-2">
+              {product.LINK ? (
+                <a
+                  href={product.LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#FFDD00] neo-border neo-shadow-sm py-2.5 text-xs font-extrabold text-center hover:bg-yellow-400 block text-black"
+                >
+                  ⌁ Pesan Produk Sekarang
+                </a>
+              ) : (
+                <button
+                  onClick={() => onPesanWa(product)}
+                  className="w-full bg-[#00E5A0] neo-border neo-shadow-sm py-2.5 text-xs font-extrabold hover:bg-emerald-400 text-black"
+                >
+                  💬 Pesan Langsung via WhatsApp
+                </button>
+              )}
+
+              {product.LINK_DESAIN && (
+                <a
+                  href={product.LINK_DESAIN}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-black text-[#FFDD00] neo-border py-2 text-xs font-extrabold text-center hover:bg-gray-900 block"
+                >
+                  🎨 Lihat Link Desain
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function KatalogPage({ products, isLoading, onReload }) {
+      const [selectedProduct, setSelectedProduct] = useState(null);
+      const [searchQuery, setSearchQuery] = useState('');
+      const INITIAL_BATCH_SIZE = 4;
+      const REVEAL_STEP = 2;
+      const REVEAL_DELAY_MS = 140;
+      const INITIAL_PRODUCT_LOADING_MS = 1000;
+      const [visibleCount, setVisibleCount] = useState(0);
+      const [revealedDataKey, setRevealedDataKey] = useState('');
+      const [initialLoadingFinished, setInitialLoadingFinished] = useState(false);
+
+      // Tahan katalog pada skeleton selama 10 detik pertama ketika halaman
+      // dibuka. Setelah itu produk tetap muncul bertahap seperti biasa.
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setInitialLoadingFinished(true);
+        }, INITIAL_PRODUCT_LOADING_MS);
+        return () => clearTimeout(timer);
+      }, []);
+
+      const displayedProducts = useMemo(() => {
+        return products.filter((p) => {
+          // Paksa semua nilai jadi string agar tidak crash jika Sheets kirim Date/number
+          const status = String(p.STATUS || '').trim().toLowerCase();
+          const isShown = status !== 'disembunyikan';
+          const nama = String(p.NAMA || '').toLowerCase();
+          const deskripsi = String(p.DESKRIPSI || '').toLowerCase();
+          const q = searchQuery.toLowerCase();
+          const matchSearch = nama.includes(q) || deskripsi.includes(q);
+          return isShown && matchSearch;
+        });
+      }, [products, searchQuery]);
+
+      // Fingerprint berubah ketika cache diganti hasil server, produk baru
+      // masuk, atau urutan produk berubah. Setiap versi data selalu memulai
+      // antrean baru sehingga hasil cache tidak pernah tiba-tiba tampil semua.
+      const productDataKey = useMemo(() => {
+        return displayedProducts.map((p, index) =>
+          String(p.ID || p.NAMA || index)
+        ).join('|');
+      }, [displayedProducts]);
+
+      // Reset visible count saat query atau versi data berubah.
+      useEffect(() => {
+        setRevealedDataKey(productDataKey);
+        setVisibleCount(Math.min(INITIAL_BATCH_SIZE, displayedProducts.length));
+      }, [searchQuery, productDataKey]);
+
+      // Munculkan produk bertahap, baik data berasal dari cache maupun API.
+      useEffect(() => {
+        if (displayedProducts.length === 0) return;
+        if (visibleCount >= displayedProducts.length) return;
+        const timer = setTimeout(() => {
+          setVisibleCount((prev) =>
+            Math.min(prev + REVEAL_STEP, displayedProducts.length)
+          );
+        }, REVEAL_DELAY_MS);
+        return () => clearTimeout(timer);
+      }, [visibleCount, productDataKey]);
+
+      const handlePesanWa = (p) => {
+        const text = `Halo Admin Dwisyafitriproject, saya ingin memesan produk:\n*${p.NAMA}* (${rp(p.HARGA)})\nApakah stok tersedia? Terima kasih!`;
+        window.open(`https://wa.me/6288289369002?text=${encodeURIComponent(text)}`, '_blank');
+      };
+
+      // Saat data baru masuk, tahan daftar pada skeleton sampai effect reset
+      // selesai. Ini mencegah seluruh produk cache/server terlukis satu frame.
+      const effectiveVisibleCount =
+        initialLoadingFinished && revealedDataKey === productDataKey
+          ? visibleCount
+          : 0;
+      const visibleProducts = displayedProducts.slice(0, effectiveVisibleCount);
+      const remainingCount = displayedProducts.length - effectiveVisibleCount;
+
+      return (
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full">
+          <div className="bg-[#FFDD00] neo-border neo-shadow-lg p-6 mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="font-black text-2xl md:text-3xl uppercase tracking-tight">Katalog Produk Pilihan</h2>
+              <p className="font-bold text-sm text-gray-800 mt-1">Temukan produk terbaik kami dengan harga ramah kantong.</p>
+            </div>
+            <div className="w-full md:w-72">
+              <input
+                type="text"
+                placeholder="Cari produk..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+              />
+            </div>
+          </div>
+
+          {isLoading && displayedProducts.length === 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {Array.from({ length: INITIAL_BATCH_SIZE }).map((_, i) => (
+                <div key={i} className="skeleton-card" />
+              ))}
+            </div>
+          ) : displayedProducts.length === 0 ? (
+            <div className="text-center py-12 bg-white neo-border p-8">
+              <p className="font-extrabold text-lg text-gray-500 mb-4">Tidak ada produk ditemukan.</p>
+              {!searchQuery && onReload && (
+                <button
+                  onClick={onReload}
+                  className="mt-2 px-5 py-2 bg-[#FFDD00] neo-border neo-shadow-sm font-extrabold text-sm hover:bg-yellow-400"
+                >
+                  🔄 Muat Ulang Produk
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {visibleProducts.map((p, idx) => (
+                  <div
+                    key={String(p.ID || idx)}
+                    className="produk-card-anim"
+                    style={{ animationDelay: `${Math.min(idx, INITIAL_BATCH_SIZE - 1) * 60}ms` }}
+                  >
+                    <CatalogProductCard
+                      product={p}
+                      onSelectDetail={(prod) => setSelectedProduct(prod)}
+                      onPesanWa={handlePesanWa}
+                    />
+                  </div>
+                ))}
+                {remainingCount > 0 && Array.from({ length: Math.min(remainingCount, 4) }).map((_, i) => (
+                  <div key={`sk-${i}`} className="skeleton-card" />
+                ))}
+              </div>
+              {remainingCount > 0 && (
+                <p className="text-center text-xs font-bold text-gray-500 mt-4">
+                  Memuat {remainingCount} produk lainnya...
+                </p>
+              )}
+            </>
+          )}
+
+          {selectedProduct && (
+            <ProductDetailModal
+              product={selectedProduct}
+              onClose={() => setSelectedProduct(null)}
+              onPesanWa={handlePesanWa}
+            />
+          )}
+        </div>
+      );
+    }
+
+    function UlasanPage({ reviews, onAddReview, isLoading }) {
+      const [nama, setNama] = useState('');
+      const [wa, setWa] = useState('');
+      const [rating, setRating] = useState(5);
+      const [reviewText, setReviewText] = useState('');
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+      const averageRating = useMemo(() => {
+        if (reviews.length === 0) return '5.0';
+        const sum = reviews.reduce((acc, r) => acc + (Number(r.RATING) || 5), 0);
+        return (sum / reviews.length).toFixed(1);
+      }, [reviews]);
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!nama.trim() || !reviewText.trim()) return;
+
+        setIsSubmitting(true);
+        try {
+          await onAddReview({
+            NAMA: nama.trim(),
+            WHATSAPP: cleanWaInput(wa),
+            RATING: rating,
+            REVIEW: reviewText.trim(),
+            TANGGAL: new Date().toISOString(),
+          });
+          setNama('');
+          setWa('');
+          setRating(5);
+          setReviewText('');
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      return (
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full">
+          <div className="bg-[#00E5FF] neo-border neo-shadow-lg p-6 mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="font-black text-2xl md:text-3xl uppercase tracking-tight">Ulasan & Rating Pelanggan</h2>
+              <p className="font-bold text-sm text-gray-800 mt-1">Kepuasan pelanggan adalah prioritas utama kami.</p>
+            </div>
+            <div className="bg-white neo-border px-4 py-2 text-center neo-shadow-sm">
+              <div className="text-2xl font-black">{averageRating} / 5.0</div>
+              <div className="text-[10px] font-bold text-gray-500 uppercase">Dari {reviews.length} Ulasan</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="bg-white neo-border neo-shadow p-6 h-fit">
+              <h3 className="font-black text-lg mb-4 border-b-2 border-black pb-2">Tulis Ulasan Anda</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1">Nama Anda *</label>
+                  <input
+                    type="text"
+                    required
+                    value={nama}
+                    onChange={(e) => setNama(e.target.value)}
+                    placeholder="Contoh: Budi Santoso"
+                    className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1">No. WhatsApp (Opsional)</label>
+                  <input
+                    type="text"
+                    value={wa}
+                    onChange={(e) => setWa(e.target.value)}
+                    placeholder="Contoh: 08123456789"
+                    className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1">Rating Bintang</label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        className={`w-9 h-9 neo-border font-black text-base flex items-center justify-center transition-all ${
+                          star <= rating ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-gray-100 text-gray-400'
+                        }`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1">Ulasan Anda *</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    placeholder="Bagikan pengalaman rasa & pelayanan toko kami..."
+                    className="w-full neo-border p-3 text-sm bg-white font-medium outline-none focus:neo-shadow resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#FFDD00] neo-border neo-shadow py-2.5 text-xs font-extrabold hover:bg-yellow-400 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Kirim...' : 'Kirim Ulasan'}
+                </button>
+              </form>
+            </div>
+
+            <div className="lg:col-span-2 space-y-4">
+              <h3 className="font-black text-lg border-b-2 border-black pb-2">Semua Ulasan</h3>
+              {isLoading ? (
+                <div className="text-center py-8 font-extrabold">Memuat ulasan...</div>
+              ) : reviews.length === 0 ? (
+                <div className="bg-white neo-border p-8 text-center font-bold text-gray-500">
+                  Belum ada ulasan. Jadilah yang pertama memberikan ulasan!
+                </div>
+              ) : (
+                reviews.map((r) => (
+                  <div key={r.ID} className="bg-white neo-border neo-shadow p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <div className="font-extrabold text-sm">{r.NAMA}</div>
+                        <div className="text-[10px] text-gray-500 font-mono">{fmtDate(r.TANGGAL)}</div>
+                      </div>
+                      <div className="flex text-yellow-500 text-sm font-bold">
+                        {'★'.repeat(Number(r.RATING) || 5)}
+                      </div>
+                    </div>
+                    <p className="text-sm font-medium text-gray-800">{r.REVIEW}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminLogin({ isOpen, onClose, onLoginSuccess, showToast }) {
+      const [username, setUsername] = useState('');
+      const [password, setPassword] = useState('');
+      const [isLoading, setIsLoading] = useState(false);
+      // Pesan error inline di dalam form agar langsung terlihat pengguna
+      const [loginError, setLoginError] = useState('');
+
+      if (!isOpen) return null;
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoginError('');
+        setIsLoading(true);
+        try {
+          const res = await gasCall('loginAdmin', { username, password });
+          if (res && res.ok) {
+            showToast('Login Admin berhasil!', 'success');
+            setLoginError('');
+            onLoginSuccess();
+            onClose();
+          } else {
+            // Tampilkan peringatan inline DI DALAM form, bukan hanya toast
+            const msg = res?.message || 'Username atau password salah!';
+            setLoginError(msg);
+            showToast(msg, 'error');
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      return (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white neo-border neo-shadow-lg p-6 max-w-sm w-full relative">
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 w-7 h-7 bg-gray-200 neo-border font-bold text-xs flex items-center justify-center hover:bg-gray-300"
+            >
+              ✕
+            </button>
+
+            <h3 className="font-black text-xl mb-4 text-center uppercase tracking-tight">Login Admin Toko</h3>
+
+            {/* Peringatan error login yang jelas dan mencolok */}
+            {loginError && (
+              <div className="mb-4 px-3 py-2 bg-red-100 border-2 border-red-500 neo-shadow-sm flex items-center gap-2">
+                <span className="text-red-600 text-base font-black">⚠</span>
+                <span className="text-red-700 text-xs font-extrabold">{loginError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Username</label>
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => { setUsername(e.target.value); setLoginError(''); }}
+                  className={`w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow ${loginError ? 'border-red-500' : ''}`}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); setLoginError(''); }}
+                  className={`w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow ${loginError ? 'border-red-500' : ''}`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#00E5FF] neo-border neo-shadow py-2.5 text-xs font-extrabold hover:bg-cyan-300 disabled:opacity-50"
+              >
+                {isLoading ? 'Memverifikasi...' : 'Masuk Dashboard'}
+              </button>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminProdukTab({ products, onSaveProduct, onDeleteProduct }) {
+      const [editingId, setEditingId] = useState(null);
+      const [nama, setNama] = useState('');
+      const [harga, setHarga] = useState('');
+      const [foto1, setFoto1] = useState('');
+      const [foto2, setFoto2] = useState('');
+      const [foto3, setFoto3] = useState('');
+      const [link, setLink] = useState('');
+      const [linkDesain, setLinkDesain] = useState('');
+      const [deskripsi, setDeskripsi] = useState('');
+      const [status, setStatus] = useState('ditampilkan');
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+      const handleEdit = (p) => {
+        setEditingId(p.ID);
+        setNama(p.NAMA || '');
+        setHarga(p.HARGA ? String(p.HARGA) : '');
+        setFoto1(p.FOTO_URL || '');
+        setFoto2(p.FOTO_URL2 || '');
+        setFoto3(p.FOTO_URL3 || '');
+        setLink(p.LINK || '');
+        setLinkDesain(p.LINK_DESAIN || '');
+        setDeskripsi(p.DESKRIPSI || '');
+        setStatus(p.STATUS || 'ditampilkan');
+      };
+
+      const handleReset = () => {
+        setEditingId(null);
+        setNama('');
+        setHarga('');
+        setFoto1('');
+        setFoto2('');
+        setFoto3('');
+        setLink('');
+        setLinkDesain('');
+        setDeskripsi('');
+        setStatus('ditampilkan');
+      };
+
+      const handleUrlChange = (val, setter) => {
+        setter(convertDriveLink(val));
+      };
+
+      const handleFileUpload = (e, setter) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        compressImage(file, (dataUrl) => {
+          setter(dataUrl);
+        });
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!nama.trim() || !harga) return;
+
+        setIsSubmitting(true);
+        try {
+          await onSaveProduct({
+            ID: editingId || undefined,
+            NAMA: nama.trim(),
+            HARGA: Number(harga),
+            FOTO_URL: foto1,
+            FOTO_URL2: foto2,
+            FOTO_URL3: foto3,
+            LINK: link.trim(),
+            LINK_DESAIN: linkDesain.trim(),
+            DESKRIPSI: deskripsi.trim(),
+            STATUS: status,
+          });
+          handleReset();
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      const handleToggleStatus = async (p) => {
+        const newStatus = p.STATUS === 'ditampilkan' ? 'disembunyikan' : 'ditampilkan';
+        await onSaveProduct({ ...p, STATUS: newStatus });
+      };
+
+      return (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="bg-white neo-border neo-shadow p-6 h-fit space-y-4">
+            <h3 className="font-black text-lg mb-2 border-b-2 border-black pb-2">
+              {editingId ? `Edit Produk #${editingId}` : 'Tambah Produk Baru'}
+            </h3>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Nama Produk *</label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama produk..."
+                  className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Harga (Rp) *</label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  value={harga}
+                  onChange={(e) => setHarga(e.target.value)}
+                  placeholder="15000"
+                  className="w-full neo-border px-3 py-2 text-sm bg-white font-mono font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">
+                  📷 Foto 1 — Utama <span className="normal-case font-normal text-gray-500">(URL / Drive / Upload)</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={foto1}
+                    onChange={(e) => handleUrlChange(e.target.value, setFoto1)}
+                    placeholder="Paste URL / Link Google Drive..."
+                    className="flex-1 neo-border px-3 py-1.5 text-xs bg-white outline-none focus:neo-shadow"
+                  />
+                  <label className="cursor-pointer neo-border bg-[#FFDD00] px-3 py-1.5 font-bold text-xs hover:bg-yellow-400">
+                    Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleFileUpload(e, setFoto1)}
+                    />
+                  </label>
+                </div>
+                {foto1 && (
+                  <img src={foto1} alt="Preview Foto 1" className="mt-2 w-14 h-14 object-cover neo-border" referrerPolicy="no-referrer" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">
+                  📷 Foto 2 <span className="normal-case font-normal text-gray-500">(Opsional)</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={foto2}
+                    onChange={(e) => handleUrlChange(e.target.value, setFoto2)}
+                    placeholder="Paste URL / Link Google Drive..."
+                    className="flex-1 neo-border px-3 py-1.5 text-xs bg-white outline-none focus:neo-shadow"
+                  />
+                  <label className="cursor-pointer neo-border bg-[#FFDD00] px-3 py-1.5 font-bold text-xs hover:bg-yellow-400">
+                    Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleFileUpload(e, setFoto2)}
+                    />
+                  </label>
+                </div>
+                {foto2 && (
+                  <img src={foto2} alt="Preview Foto 2" className="mt-2 w-14 h-14 object-cover neo-border" referrerPolicy="no-referrer" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">
+                  📷 Foto 3 <span className="normal-case font-normal text-gray-500">(Opsional)</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={foto3}
+                    onChange={(e) => handleUrlChange(e.target.value, setFoto3)}
+                    placeholder="Paste URL / Link Google Drive..."
+                    className="flex-1 neo-border px-3 py-1.5 text-xs bg-white outline-none focus:neo-shadow"
+                  />
+                  <label className="cursor-pointer neo-border bg-[#FFDD00] px-3 py-1.5 font-bold text-xs hover:bg-yellow-400">
+                    Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleFileUpload(e, setFoto3)}
+                    />
+                  </label>
+                </div>
+                {foto3 && (
+                  <img src={foto3} alt="Preview Foto 3" className="mt-2 w-14 h-14 object-cover neo-border" referrerPolicy="no-referrer" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Link Pemesanan (Opsional)</label>
+                <input
+                  type="text"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  placeholder="https://..."
+                  className="w-full neo-border px-3 py-2 text-xs bg-white font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Link Desain (Opsional)</label>
+                <input
+                  type="text"
+                  value={linkDesain}
+                  onChange={(e) => setLinkDesain(e.target.value)}
+                  placeholder="https://canva.com/..."
+                  className="w-full neo-border px-3 py-2 text-xs bg-white font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Status Tampil</label>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full neo-border px-3 py-2 text-xs bg-white font-bold outline-none focus:neo-shadow"
+                >
+                  <option value="ditampilkan">Ditampilkan</option>
+                  <option value="disembunyikan">Disembunyikan</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Deskripsi Produk</label>
+                <textarea
+                  rows={2}
+                  value={deskripsi}
+                  onChange={(e) => setDeskripsi(e.target.value)}
+                  className="w-full neo-border p-2.5 text-xs bg-white font-medium outline-none focus:neo-shadow resize-none"
+                />
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 bg-[#FFDD00] neo-border neo-shadow py-2.5 text-xs font-extrabold hover:bg-yellow-400 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Menyimpan...' : editingId ? 'Update Produk' : 'Simpan Produk'}
+                </button>
+                {editingId && (
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="neo-border px-3 py-2.5 text-xs font-extrabold bg-gray-100 hover:bg-gray-200"
+                  >
+                    Batal
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+
+          <div className="lg:col-span-2">
+            <div className="bg-white neo-border neo-shadow overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-black text-[#FFDD00] font-bold uppercase">
+                    <th className="p-3">Foto</th>
+                    <th className="p-3">Produk</th>
+                    <th className="p-3">Harga</th>
+                    <th className="p-3">Status</th>
+                    <th className="p-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 font-medium">
+                  {products.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="p-4 text-center text-gray-400">Belum ada produk.</td>
+                    </tr>
+                  ) : (
+                    products.map((p) => {
+                      const thumbUrl = convertDriveLink(p.FOTO_URL) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100';
+                      const isVisible = p.STATUS === 'ditampilkan';
+                      return (
+                        <tr key={p.ID} className="hover:bg-yellow-50">
+                          <td className="p-3">
+                            <img
+                              src={thumbUrl}
+                              alt={p.NAMA}
+                              className="w-10 h-10 object-cover neo-border"
+                              referrerPolicy="no-referrer"
+                            />
+                          </td>
+                          <td className="p-3">
+                            <div className="font-bold text-sm">{p.NAMA}</div>
+                            <div className="text-[10px] font-mono text-gray-500">{p.ID}</div>
+                          </td>
+                          <td className="p-3 font-mono font-bold">{rp(p.HARGA)}</td>
+                          <td className="p-3">
+                            <button
+                              onClick={() => handleToggleStatus(p)}
+                              className={`px-2.5 py-1 font-bold text-[10px] uppercase neo-border ${
+                                isVisible ? 'bg-[#00E5FF] text-black' : 'bg-gray-200 text-gray-700'
+                              }`}
+                            >
+                              {isVisible ? 'Tampil' : 'Sembunyi'}
+                            </button>
+                          </td>
+                          <td className="p-3 text-center space-x-2">
+                            <button
+                              onClick={() => handleEdit(p)}
+                              className="neo-border px-2 py-1 bg-yellow-300 font-bold hover:bg-yellow-400"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => onDeleteProduct(p.ID)}
+                              className="neo-border px-2 py-1 bg-red-400 text-white font-bold hover:bg-red-500"
+                            >
+                              Hapus
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminKasirTab({ products, sales, onSaveSale, onDeleteSale, onShowReceipt }) {
+      const [editingId, setEditingId] = useState(null);
+      const [nama, setNama] = useState('');
+      const [wa, setWa] = useState('');
+      const [cart, setCart] = useState([]);
+      const [selectedProduct, setSelectedProduct] = useState('');
+      const [metode, setMetode] = useState('Cash');
+      const [bayar, setBayar] = useState('');
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+      const totalHarga = useMemo(() => {
+        return cart.reduce((sum, item) => sum + item.harga * item.qty, 0);
+      }, [cart]);
+
+      const handleAddProductToCart = (prodName) => {
+        if (!prodName) return;
+        const prod = products.find((x) => x.NAMA === prodName);
+        if (!prod) return;
+
+        setCart((prev) => {
+          const existing = prev.find((x) => x.nama === prod.NAMA);
+          if (existing) {
+            return prev.map((x) =>
+              x.nama === prod.NAMA ? { ...x, qty: x.qty + 1 } : x
+            );
+          }
+          return [...prev, { nama: prod.NAMA, harga: prod.HARGA, qty: 1 }];
+        });
+        setSelectedProduct('');
+      };
+
+      const handleUpdateQty = (namaProd, delta) => {
+        setCart((prev) =>
+          prev
+            .map((x) => {
+              if (x.nama === namaProd) {
+                const newQty = x.qty + delta;
+                return newQty > 0 ? { ...x, qty: newQty } : null;
+              }
+              return x;
+            })
+            .filter(Boolean)
+        );
+      };
+
+      const handleRemoveFromCart = (namaProd) => {
+        setCart((prev) => prev.filter((x) => x.nama !== namaProd));
+      };
+
+      const handleMetodeChange = (e) => {
+        const val = e.target.value;
+        setMetode(val);
+        if (val !== 'Cash') {
+          setBayar(totalHarga);
+        } else {
+          setBayar('');
+        }
+      };
+
+      const currentBayarNum = bayar === '' ? (metode === 'Cash' ? 0 : totalHarga) : Number(bayar);
+      const kembalian = metode === 'Cash' ? Math.max(0, currentBayarNum - totalHarga) : 0;
+
+      const handleResetForm = () => {
+        setEditingId(null);
+        setNama('');
+        setWa('');
+        setCart([]);
+        setSelectedProduct('');
+        setMetode('Cash');
+        setBayar('');
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!nama.trim() || cart.length === 0 || totalHarga <= 0) return;
+        if (metode === 'Cash' && currentBayarNum < totalHarga) return;
+
+        const produkSummary = cart.map((i) => `${i.nama} (${i.qty}x)`).join(', ');
+
+        setIsSubmitting(true);
+        try {
+          const savedSale = await onSaveSale({
+            ID: editingId || undefined,
+            NAMA_PEMBELI: nama.trim(),
+            WHATSAPP: cleanWaInput(wa),
+            PRODUK: produkSummary,
+            HARGA: totalHarga,
+            BAYAR: currentBayarNum,
+            METODE: metode,
+            KEMBALIAN: kembalian,
+            TANGGAL: new Date().toISOString(),
+          });
+          handleResetForm();
+          if (savedSale) {
+            onShowReceipt(savedSale);
+          }
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      return (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="bg-white neo-border neo-shadow p-6 h-fit">
+            <h3 className="font-black text-lg mb-4 border-b-2 border-black pb-2">Input Penjualan Kasir</h3>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Nama Pembeli *</label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Pelanggan Umum "
+                  className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">No. WhatsApp</label>
+                <input
+                  type="text"
+                  value={wa}
+                  onChange={(e) => setWa(e.target.value)}
+                  placeholder="08xx-xxx-xxx"
+                  className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Pilih Produk *</label>
+                <div className="flex gap-2">
+                  <select
+                    value={selectedProduct}
+                    onChange={(e) => setSelectedProduct(e.target.value)}
+                    className="flex-1 neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                  >
+                    <option value="">-- Pilih Produk --</option>
+                    {products.map((p) => (
+                      <option key={p.ID} value={p.NAMA}>
+                        {p.NAMA} ({rp(p.HARGA)})
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => handleAddProductToCart(selectedProduct)}
+                    disabled={!selectedProduct}
+                    className="bg-[#FFDD00] neo-border px-3 py-2 text-xs font-extrabold hover:bg-yellow-400 disabled:opacity-50"
+                  >
+                    + Tambah
+                  </button>
+                </div>
+              </div>
+
+              <div className="neo-border p-3 bg-gray-50 flex flex-col gap-2">
+                <div className="text-xs font-bold uppercase tracking-wider border-b pb-1 flex justify-between">
+                  <span>Daftar Pesanan ({cart.length})</span>
+                  {cart.length > 0 && (
+                    <button type="button" onClick={() => setCart([])} className="text-[10px] text-red-600 hover:underline">
+                      Kosongkan
+                    </button>
+                  )}
+                </div>
+
+                {cart.length === 0 ? (
+                  <div className="text-xs text-gray-500 italic py-2 text-center">
+                    Belum ada produk dipilih.
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1">
+                    {cart.map((item) => (
+                      <div key={item.nama} className="flex items-center justify-between bg-white neo-border p-2 text-xs">
+                        <div className="flex-1 pr-2">
+                          <div className="font-bold">{item.nama}</div>
+                          <div className="text-[11px] text-gray-500 font-mono">
+                            {rp(item.harga)} x {item.qty} = {rp(item.harga * item.qty)}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateQty(item.nama, -1)}
+                            className="w-5 h-5 bg-gray-200 neo-border font-bold flex items-center justify-center hover:bg-gray-300"
+                          >
+                            -
+                          </button>
+                          <span className="w-5 text-center font-bold font-mono">{item.qty}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateQty(item.nama, 1)}
+                            className="w-5 h-5 bg-gray-200 neo-border font-bold flex items-center justify-center hover:bg-gray-300"
+                          >
+                            +
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFromCart(item.nama)}
+                            className="ml-1 text-red-600 font-bold px-1"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Total Tagihan (Rp)</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={rp(totalHarga)}
+                  className="w-full neo-border px-3 py-2 text-sm bg-yellow-100 font-mono font-extrabold outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Metode Pembayaran</label>
+                <select
+                  value={metode}
+                  onChange={handleMetodeChange}
+                  className="w-full neo-border px-3 py-2 text-sm bg-white font-bold outline-none focus:neo-shadow"
+                >
+                  <option value="Cash">Cash / Tunai</option>
+                  <option value="QRIS">QRIS</option>
+                  <option value="Transfer">Transfer Bank</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase mb-1">Uang Diterima (Rp)</label>
+                <input
+                  type="number"
+                  readOnly={metode !== 'Cash'}
+                  value={bayar}
+                  onChange={(e) => setBayar(e.target.value === '' ? '' : Number(e.target.value))}
+                  placeholder={metode === 'Cash' ? '0' : String(totalHarga)}
+                  className="w-full neo-border px-3 py-2 text-sm font-mono font-bold outline-none focus:neo-shadow bg-white"
+                />
+              </div>
+
+              <div className="bg-black text-white p-3 neo-border flex justify-between items-center">
+                <span className="text-xs font-bold uppercase">Kembalian:</span>
+                <span className="font-mono font-extrabold text-base text-[#00E5FF]">{rp(kembalian)}</span>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || cart.length === 0}
+                className="w-full bg-[#FFDD00] neo-border neo-shadow py-2.5 text-xs font-extrabold hover:bg-yellow-400 disabled:opacity-50"
+              >
+                {isSubmitting ? 'Proses...' : 'Simpan & Cetak Struk'}
+              </button>
+            </form>
+          </div>
+
+          <div className="lg:col-span-2">
+            <div className="bg-white neo-border neo-shadow overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-black text-white font-bold uppercase">
+                    <th className="p-3">Trx / Tanggal</th>
+                    <th className="p-3">Pembeli</th>
+                    <th className="p-3">Produk</th>
+                    <th className="p-3">Total</th>
+                    <th className="p-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 font-medium">
+                  {sales.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="p-4 text-center text-gray-400">Belum ada transaksi.</td>
+                    </tr>
+                  ) : (
+                    sales.map((s) => (
+                      <tr key={s.ID} className="hover:bg-gray-50">
+                        <td className="p-3 font-mono">
+                          <div className="font-bold">{s.NO_TRANSAKSI || s.ID}</div>
+                          <div className="text-[10px] text-gray-500">{fmtDate(s.TANGGAL, true)}</div>
+                        </td>
+                        <td className="p-3 font-bold">{s.NAMA_PEMBELI}</td>
+                        <td className="p-3">{s.PRODUK}</td>
+                        <td className="p-3 font-mono font-bold">{rp(s.HARGA)}</td>
+                        <td className="p-3 text-center space-x-2">
+                          <button
+                            onClick={() => onShowReceipt(s)}
+                            className="neo-border px-2 py-1 bg-[#00E5FF] font-bold hover:bg-cyan-300"
+                          >
+                            Struk
+                          </button>
+                          <button
+                            onClick={() => onDeleteSale(s.ID)}
+                            className="neo-border px-2 py-1 bg-red-400 text-white font-bold hover:bg-red-500"
+                          >
+                            Hapus
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminArusCashTab({ sales, expenses, onSaveExpense, onDeleteExpense }) {
+      const [selectedMonth, setSelectedMonth] = useState('Semua Bulan');
+      const [formKeterangan, setFormKeterangan] = useState('');
+      const [formJumlah, setFormJumlah] = useState('');
+      const [formTanggal, setFormTanggal] = useState(() => new Date().toISOString().split('T')[0]);
+      const [editingExpenseId, setEditingExpenseId] = useState(null);
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+      const monthOptions = useMemo(() => {
+        const set = new Set([
+          'Semua Bulan',
+          'Mei 2025',
+          'April 2025',
+          'Maret 2025',
+          ...sales.map((s) => getMonthYearStr(s.TANGGAL)).filter(Boolean),
+          ...expenses.map((e) => getMonthYearStr(e.TANGGAL)).filter(Boolean),
+        ]);
+        return Array.from(set);
+      }, [sales, expenses]);
+
+      const displaySales = useMemo(() => {
+        if (!selectedMonth || selectedMonth === 'Semua Bulan') return sales;
+        return sales.filter((s) => getMonthYearStr(s.TANGGAL) === selectedMonth);
+      }, [sales, selectedMonth]);
+
+      const displayExpenses = useMemo(() => {
+        if (!selectedMonth || selectedMonth === 'Semua Bulan') return expenses;
+        return expenses.filter((e) => getMonthYearStr(e.TANGGAL) === selectedMonth);
+      }, [expenses, selectedMonth]);
+
+      const totalOmzet = useMemo(() => {
+        return displaySales.reduce((sum, s) => sum + (Number(s.HARGA) || 0), 0);
+      }, [displaySales]);
+
+      const totalPengeluaran = useMemo(() => {
+        return displayExpenses.reduce((sum, e) => sum + (Number(e.JUMLAH) || 0), 0);
+      }, [displayExpenses]);
+
+      const cashBersih = totalOmzet - totalPengeluaran;
+
+      const runwayPercentage = totalPengeluaran > 0 ? Math.min(100, Math.round((totalOmzet / totalPengeluaran) * 100)) : 100;
+
+      const expenseMonthsSet = new Set(
+        displayExpenses.map((e) => {
+          if (!e.TANGGAL) return 'default';
+          const d = new Date(e.TANGGAL);
+          return isNaN(d.getTime()) ? 'default' : `${d.getFullYear()}-${d.getMonth() + 1}`;
+        })
+      );
+      const distinctExpenseMonths = Math.max(1, expenseMonthsSet.size);
+
+      const monthlyExpense = selectedMonth && selectedMonth !== 'Semua Bulan'
+        ? totalPengeluaran
+        : totalPengeluaran > 0 ? totalPengeluaran / distinctExpenseMonths : 0;
+
+      const monthsRunway = monthlyExpense > 0 && cashBersih > 0
+        ? (cashBersih / monthlyExpense).toFixed(1)
+        : totalPengeluaran === 0 && totalOmzet > 0 ? '∞' : '0.0';
+
+      const netProfitMargin = totalOmzet > 0
+        ? ((cashBersih / totalOmzet) * 100).toFixed(1)
+        : '0.0';
+
+      const expenseRatio = totalOmzet > 0
+        ? Math.round((totalPengeluaran / totalOmzet) * 100)
+        : (totalPengeluaran > 0 ? 100 : 0);
+
+      const handleEditExpense = (exp) => {
+        setEditingExpenseId(exp.ID);
+        setFormKeterangan(exp.KETERANGAN || '');
+        setFormJumlah(exp.JUMLAH ? String(exp.JUMLAH) : '');
+        setFormTanggal(exp.TANGGAL ? new Date(exp.TANGGAL).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
+      };
+
+      const handleResetExpense = () => {
+        setEditingExpenseId(null);
+        setFormKeterangan('');
+        setFormJumlah('');
+        setFormTanggal(new Date().toISOString().split('T')[0]);
+      };
+
+      const handleSubmitExpense = async (e) => {
+        e.preventDefault();
+        if (!formKeterangan.trim() || !formJumlah) return;
+
+        setIsSubmitting(true);
+        try {
+          await onSaveExpense({
+            ID: editingExpenseId || undefined,
+            KETERANGAN: formKeterangan.trim(),
+            JUMLAH: Number(formJumlah),
+            TANGGAL: new Date().toISOString(),
+          });
+          handleResetExpense();
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      const handleDownloadPDF = () => {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+          alert('Mohon izinkan pop-up browser untuk mengunduh/mencetak laporan PDF.');
+          return;
+        }
+
+        const htmlContent = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Laporan Arus Cash - Dwisyafitriproject (${selectedMonth})</title>
+            <style>
+              body { font-family: 'Arial', sans-serif; color: #000; padding: 30px; font-size: 12px; line-height: 1.5; }
+              .header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
+              .header h1 { margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+              .header p { margin: 4px 0 0; font-size: 13px; color: #555; font-weight: bold; }
+              .meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+              .cards { display: flex; gap: 15px; margin-bottom: 20px; }
+              .card { flex: 1; border: 2px solid #000; padding: 12px; background: #fafafa; border-radius: 4px; }
+              .card-title { font-size: 10px; color: #555; text-transform: uppercase; font-weight: bold; }
+              .card-value { font-size: 18px; font-weight: bold; margin-top: 5px; font-family: monospace; }
+              .table-title { font-size: 13px; font-weight: bold; margin-top: 20px; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
+              table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11px; }
+              th { background: #000; color: #fff; text-align: left; padding: 8px; text-transform: uppercase; font-size: 10px; }
+              td { border-bottom: 1px solid #ddd; padding: 8px; }
+              .text-right { text-align: right; }
+              .footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+              .signature { text-align: center; width: 200px; }
+              .signature-line { border-bottom: 1px solid #000; margin-top: 60px; }
+              @media print { body { padding: 0; } }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <h1>Dwisyafitriproject</h1>
+              <p>LAPORAN ARUS CASH & KEUANGAN</p>
+            </div>
+
+            <div class="meta">
+              <span>Periode Laporan: ${selectedMonth}</span>
+              <span>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+
+            <div class="cards">
+              <div class="card">
+                <div class="card-title">Total Pemasukan (Omzet)</div>
+                <div class="card-value">${rp(totalOmzet)}</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Total Pengeluaran</div>
+                <div class="card-value">${rp(totalPengeluaran)}</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Cash Bersih</div>
+                <div class="card-value">${rp(cashBersih)}</div>
+              </div>
+            </div>
+
+            <div class="cards">
+              <div class="card">
+                <div class="card-title">Cash Runway</div>
+                <div class="card-value">${monthsRunway} Bulan (${runwayPercentage}%)</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Net Profit Margin</div>
+                <div class="card-value">${netProfitMargin}%</div>
+              </div>
+            </div>
+
+            <div class="table-title">1. Riwayat Pemasukan (Otomatis dari Kasir)</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Keterangan</th>
+                  <th class="text-right">Jumlah (Rp)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${displaySales.length === 0 ? '<tr><td colspan="3" style="text-align:center;">Tidak ada data pemasukan.</td></tr>' : 
+                  displaySales.map(s => `
+                    <tr>
+                      <td>${fmtDate(s.TANGGAL)}</td>
+                      <td>${s.PRODUK || 'Omzet Penjualan'}</td>
+                      <td class="text-right">${(Number(s.HARGA) || 0).toLocaleString('id-ID')}</td>
+                    </tr>
+                  `).join('')
+                }
+              </tbody>
+              <tfoot>
+                <tr style="font-weight:bold; background:#f0f0f0;">
+                  <td colspan="2">Total Pemasukan</td>
+                  <td class="text-right">${totalOmzet.toLocaleString('id-ID')}</td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="table-title">2. Riwayat Pengeluaran</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Keterangan</th>
+                  <th class="text-right">Jumlah (Rp)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${displayExpenses.length === 0 ? '<tr><td colspan="3" style="text-align:center;">Tidak ada data pengeluaran.</td></tr>' : 
+                  displayExpenses.map(e => `
+                    <tr>
+                      <td>${fmtDate(e.TANGGAL)}</td>
+                      <td>${e.KETERANGAN}</td>
+                      <td class="text-right">${(Number(e.JUMLAH) || 0).toLocaleString('id-ID')}</td>
+                    </tr>
+                  `).join('')
+                }
+              </tbody>
+              <tfoot>
+                <tr style="font-weight:bold; background:#f0f0f0;">
+                  <td colspan="2">Total Pengeluaran</td>
+                  <td class="text-right">${totalPengeluaran.toLocaleString('id-ID')}</td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="footer">
+              <div>
+                <p style="font-size: 10px; color: #888;">* Laporan ini di-generate secara otomatis oleh Sistem Kasir Dwisyafitriproject.</p>
+              </div>
+              <div class="signature">
+                <p>Pemilik / Admin Toko,</p>
+                <div class="signature-line"></div>
+                <p style="margin-top: 5px; font-weight: bold;">( Admin Toko )</p>
+              </div>
+            </div>
+
+            <script>
+              window.onload = function() {
+                window.print();
+              };
+            <\/script>
+          </body>
+          </html>
+        `;
+
+        printWindow.document.open();
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+      };
+
+      return (
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 bg-white neo-border p-5 neo-shadow">
+            <div>
+              <h3 className="font-extrabold text-lg text-black">Arus Cash & Laporan Keuangan</h3>
+              <p className="text-xs text-gray-600 font-medium mt-0.5">
+                Pantau kesehatan modal, cash runway, net profit, serta unduh laporan PDF resmi.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 bg-[#FFFBCC] neo-border px-3 py-1.5">
+                <span className="font-extrabold text-xs uppercase">Bulan:</span>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="bg-transparent font-extrabold text-xs outline-none cursor-pointer"
+                >
+                  {monthOptions.map((m) => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleDownloadPDF}
+                className="bg-[#00E5FF] neo-border neo-shadow-sm px-4 py-2 text-xs font-extrabold hover:bg-cyan-300 hover:neo-shadow active:translate-x-0.5 active:translate-y-0.5"
+              >
+                📄 Unduh Laporan PDF
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white neo-border p-4 neo-shadow relative overflow-hidden">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">Total Omzet (Pemasukan)</span>
+                <span className="bg-[#00E5A0] neo-border text-[9px] font-extrabold px-1.5 py-0.5">Penjualan</span>
+              </div>
+              <div className="text-2xl font-black font-mono mt-2 text-black">{rp(totalOmzet)}</div>
+            </div>
+
+            <div className="bg-white neo-border p-4 neo-shadow relative overflow-hidden">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">Total Pengeluaran</span>
+                <span className="bg-[#FF3B30] text-white neo-border text-[9px] font-extrabold px-1.5 py-0.5">Beban</span>
+              </div>
+              <div className="text-2xl font-black font-mono mt-2 text-[#FF3B30]">{rp(totalPengeluaran)}</div>
+            </div>
+
+            <div className="bg-[#FFDD00] neo-border p-4 neo-shadow relative overflow-hidden">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-black">Cash Bersih (Sisa)</span>
+                <span className="bg-black text-[#FFDD00] neo-border text-[9px] font-extrabold px-1.5 py-0.5">Nett</span>
+              </div>
+              <div className="text-2xl font-black font-mono mt-2 text-black">{rp(cashBersih)}</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white neo-border p-5 neo-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-black">Cash Runway</span>
+                  <span className="bg-[#FFDD00] neo-border text-[10px] font-black px-2 py-0.5">
+                    {runwayPercentage}% Aman
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-600 font-medium leading-tight">
+                  Estimasi durasi toko dapat bertahan beroperasi berdasarkan rata-rata pengeluaran bulanan.
+                </p>
+              </div>
+
+              <div className="my-4 flex items-center justify-center relative">
+                <svg className="w-32 h-32 transform -rotate-90">
+                  <circle cx="64" cy="64" r="50" stroke="#E5E7EB" strokeWidth="12" fill="transparent" />
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="50"
+                    stroke="#FFDD00"
+                    strokeWidth="12"
+                    fill="transparent"
+                    strokeDasharray={314}
+                    strokeDashoffset={314 - (314 * Math.min(100, runwayPercentage)) / 100}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span className="text-2xl font-black font-mono text-black">{monthsRunway}</span>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase">Bulan</span>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 neo-border p-2.5 text-center">
+                <span className="text-[10px] font-bold text-gray-600">Rata-rata Beban: </span>
+                <span className="text-xs font-mono font-bold text-black">{rp(monthlyExpense)}/bln</span>
+              </div>
+            </div>
+
+            <div className="bg-white neo-border p-5 neo-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-black">Net Profit Margin</span>
+                  <span className="bg-[#00E5FF] neo-border text-[10px] font-black px-2 py-0.5">
+                    {netProfitMargin}% Margin
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-600 font-medium leading-tight">
+                  Persentase laba bersih yang didapat dari setiap omzet pendapatan yang masuk.
+                </p>
+              </div>
+
+              <div className="my-4 flex items-center justify-center relative">
+                <svg className="w-32 h-32 transform -rotate-90">
+                  <circle cx="64" cy="64" r="50" stroke="#E5E7EB" strokeWidth="12" fill="transparent" />
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="50"
+                    stroke="#00E5FF"
+                    strokeWidth="12"
+                    fill="transparent"
+                    strokeDasharray={314}
+                    strokeDashoffset={314 - (314 * Math.max(0, Math.min(100, Number(netProfitMargin)))) / 100}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span className="text-2xl font-black font-mono text-black">{netProfitMargin}%</span>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase">Profit</span>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 neo-border p-2.5 text-center">
+                <span className="text-[10px] font-bold text-gray-600">Laba per Rp 100 Omzet: </span>
+                <span className="text-xs font-mono font-bold text-black">Rp {Math.max(0, Number(netProfitMargin)).toFixed(0)}</span>
+              </div>
+            </div>
+
+            <div className="bg-[#FF3B30] text-white neo-border p-5 neo-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">⚠️</span>
+                  <span className="text-sm font-black uppercase tracking-wider">PERINGATAN!</span>
+                </div>
+                <p className="text-xs text-white/90 font-medium leading-relaxed mt-2">
+                  {expenseRatio >= 80 ? (
+                    <>
+                      <strong>Beban Operasional Sangat Tinggi!</strong> Rasio pengeluaran Anda mencapai <strong>{expenseRatio}%</strong> dari total omzet. Harap kendalikan biaya operasional untuk menjaga arus kas tetap aman.
+                    </>
+                  ) : expenseRatio >= 50 ? (
+                    <>
+                      <strong>Pengeluaran Mencapai {expenseRatio}%</strong> dari omzet. Pertahankan tingkat penjualan dan cermati pengeluaran opsional Anda.
+                    </>
+                  ) : (
+                    <>
+                      <strong>Kondisi Arus Cash Sehat.</strong> Rasio pengeluaran toko berada di angka <strong>{expenseRatio}%</strong>. Pertahankan efisiensi operasional usaha Anda!
+                    </>
+                  )}
+                </p>
+              </div>
+
+              <div className="bg-black/20 neo-border p-3 mt-4">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-white/80">Rasio Beban terhadap Omzet</div>
+                <div className="text-xl font-black font-mono text-white mt-1">{expenseRatio}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="bg-white neo-border neo-shadow p-6 h-fit space-y-4">
+              <h3 className="font-black text-lg border-b-2 border-black pb-2 text-black">
+                {editingExpenseId ? `Edit Pengeluaran #${editingExpenseId}` : 'Catat Pengeluaran Baru'}
+              </h3>
+
+              <form onSubmit={handleSubmitExpense} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1 text-black">
+                    Tanggal Pengeluaran *
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={formTanggal}
+                    onChange={(e) => setFormTanggal(e.target.value)}
+                    className="w-full neo-border px-3 py-2 text-xs bg-white font-bold outline-none focus:neo-shadow"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1 text-black">
+                    Keterangan / Keperluan *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formKeterangan}
+                    onChange={(e) => setFormKeterangan(e.target.value)}
+                    placeholder="Contoh: Pembelian Bahan Baku Kopi"
+                    className="w-full neo-border px-3 py-2 text-xs bg-white font-bold outline-none focus:neo-shadow"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase mb-1 text-black">
+                    Jumlah Pengeluaran (Rp) *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={formJumlah}
+                    onChange={(e) => setFormJumlah(e.target.value)}
+                    placeholder="150000"
+                    className="w-full neo-border px-3 py-2 text-xs bg-white font-mono font-bold outline-none focus:neo-shadow"
+                  />
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex-1 bg-[#FF3B30] text-white neo-border neo-shadow py-2.5 text-xs font-extrabold hover:bg-red-600 disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Menyimpan...' : editingExpenseId ? 'Update' : 'Tambah Pengeluaran'}
+                  </button>
+                  {editingExpenseId && (
+                    <button
+                      type="button"
+                      onClick={handleResetExpense}
+                      className="neo-border px-3 py-2.5 text-xs font-extrabold bg-gray-100 hover:bg-gray-200"
+                    >
+                      Batal
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white neo-border neo-shadow overflow-hidden">
+                <div className="p-3 bg-black text-[#FFDD00] font-black text-xs uppercase flex justify-between items-center">
+                  <span>1. Riwayat Pemasukan ({selectedMonth})</span>
+                  <span className="font-mono text-white">{rp(totalOmzet)}</span>
+                </div>
+                <div className="overflow-x-auto max-h-60 overflow-y-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead className="bg-gray-100 border-b-2 border-black font-bold uppercase sticky top-0">
+                      <tr>
+                        <th className="p-2.5">Tanggal</th>
+                        <th className="p-2.5">Keterangan / Detail</th>
+                        <th className="p-2.5 text-right">Jumlah (Rp)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 font-medium">
+                      {displaySales.length === 0 ? (
+                        <tr>
+                          <td colSpan={3} className="p-4 text-center text-gray-400">Tidak ada data pemasukan.</td>
+                        </tr>
+                      ) : (
+                        displaySales.map((s) => (
+                          <tr key={s.ID} className="hover:bg-green-50">
+                            <td className="p-2.5 font-mono text-gray-600">{fmtDate(s.TANGGAL)}</td>
+                            <td className="p-2.5 font-bold text-black">{s.PRODUK || 'Penjualan Kasir'}</td>
+                            <td className="p-2.5 text-right font-mono text-green-600 font-bold">{rp(s.HARGA)}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="bg-white neo-border neo-shadow overflow-hidden">
+                <div className="p-3 bg-black text-[#FF3B30] font-black text-xs uppercase flex justify-between items-center">
+                  <span>2. Riwayat Pengeluaran ({selectedMonth})</span>
+                  <span className="font-mono text-white">{rp(totalPengeluaran)}</span>
+                </div>
+                <div className="overflow-x-auto max-h-60 overflow-y-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead className="bg-gray-100 border-b-2 border-black font-bold uppercase sticky top-0">
+                      <tr>
+                        <th className="p-2.5">Tanggal</th>
+                        <th className="p-2.5">Keterangan</th>
+                        <th className="p-2.5 text-right">Jumlah (Rp)</th>
+                        <th className="p-2.5 text-center">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 font-medium">
+                      {displayExpenses.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} className="p-4 text-center text-gray-400">Belum ada data pengeluaran.</td>
+                        </tr>
+                      ) : (
+                        displayExpenses.map((e) => (
+                          <tr key={e.ID} className="hover:bg-red-50">
+                            <td className="p-2.5 font-mono text-gray-600">{fmtDate(e.TANGGAL)}</td>
+                            <td className="p-2.5 font-bold text-black">{e.KETERANGAN}</td>
+                            <td className="p-2.5 text-right font-mono text-red-600 font-bold">{rp(e.JUMLAH)}</td>
+                            <td className="p-2.5 text-center space-x-1">
+                              <button
+                                onClick={() => handleEditExpense(e)}
+                                className="neo-border px-2 py-0.5 bg-yellow-300 font-bold hover:bg-yellow-400"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => onDeleteExpense(e.ID)}
+                                className="neo-border px-2 py-0.5 bg-red-400 text-white font-bold hover:bg-red-500"
+                              >
+                                Hapus
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminUlasanTab({ reviews, onDeleteReview }) {
+      return (
+        <div className="space-y-6">
+          <div className="bg-white neo-border p-5 neo-shadow">
+            <h3 className="font-extrabold text-lg text-black">Kelola & Moderasi Ulasan</h3>
+            <p className="text-xs text-gray-600 font-medium mt-0.5">
+              Tinjau dan hapus ulasan pembeli toko Anda.
+            </p>
+          </div>
+
+          <div className="bg-white neo-border neo-shadow overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-black text-[#FFDD00] font-bold uppercase">
+                  <th className="p-3">Tanggal</th>
+                  <th className="p-3">Pembeli</th>
+                  <th className="p-3">Rating</th>
+                  <th className="p-3">Ulasan</th>
+                  <th className="p-3 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 font-medium">
+                {reviews.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="p-4 text-center text-gray-400 font-bold">Belum ada ulasan dari pembeli.</td>
+                  </tr>
+                ) : (
+                  reviews.map((r) => (
+                    <tr key={r.ID} className="hover:bg-yellow-50">
+                      <td className="p-3 font-mono text-gray-600 whitespace-nowrap">
+                        {fmtDate(r.TANGGAL)}
+                      </td>
+                      <td className="p-3 whitespace-nowrap">
+                        <div className="font-extrabold text-sm text-black">{r.NAMA}</div>
+                        {r.WHATSAPP && (
+                          <div className="text-[10px] font-mono text-gray-500">{r.WHATSAPP}</div>
+                        )}
+                      </td>
+                      <td className="p-3 whitespace-nowrap text-yellow-500 font-bold text-sm">
+                        {'★'.repeat(Number(r.RATING) || 5)}
+                      </td>
+                      <td className="p-3 max-w-xs truncate text-gray-800 font-medium">{r.REVIEW}</td>
+                      <td className="p-3 text-center whitespace-nowrap">
+                        <button
+                          onClick={() => onDeleteReview(r.ID)}
+                          className="neo-border px-2.5 py-1 bg-red-400 text-white font-bold hover:bg-red-500"
+                        >
+                          Hapus
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    function AdminDashboard({
+      products,
+      sales,
+      expenses,
+      reviews,
+      onSaveProduct,
+      onDeleteProduct,
+      onSaveSale,
+      onDeleteSale,
+      onSaveExpense,
+      onDeleteExpense,
+      onDeleteReview,
+      onShowReceipt,
+    }) {
+      const [activeTab, setActiveTab] = useState('kasir');
+
+      return (
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full">
+          <div className="flex flex-wrap items-center gap-2 mb-6 border-b-2 border-black pb-3">
+            <button
+              onClick={() => setActiveTab('kasir')}
+              className={`neo-border px-4 py-2 text-xs font-extrabold uppercase transition-all ${
+                activeTab === 'kasir' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+              }`}
+            >
+              ⌁ Kasir POS
+            </button>
+            <button
+              onClick={() => setActiveTab('aruscash')}
+              className={`neo-border px-4 py-2 text-xs font-extrabold uppercase transition-all ${
+                activeTab === 'aruscash' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+              }`}
+            >
+              💰 Arus Cash Keuangan
+            </button>
+            <button
+              onClick={() => setActiveTab('produk')}
+              className={`neo-border px-4 py-2 text-xs font-extrabold uppercase transition-all ${
+                activeTab === 'produk' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+              }`}
+            >
+              📦 Kelola Produk
+            </button>
+            <button
+              onClick={() => setActiveTab('ulasan')}
+              className={`neo-border px-4 py-2 text-xs font-extrabold uppercase transition-all ${
+                activeTab === 'ulasan' ? 'bg-[#FFDD00] neo-shadow-sm' : 'bg-white hover:bg-gray-100'
+              }`}
+            >
+              ⭐ Kelola Ulasan
+            </button>
+          </div>
+
+          {activeTab === 'kasir' && (
+            <AdminKasirTab
+              products={products}
+              sales={sales}
+              onSaveSale={onSaveSale}
+              onDeleteSale={onDeleteSale}
+              onShowReceipt={onShowReceipt}
+            />
+          )}
+
+          {activeTab === 'aruscash' && (
+            <AdminArusCashTab
+              sales={sales}
+              expenses={expenses}
+              onSaveExpense={onSaveExpense}
+              onDeleteExpense={onDeleteExpense}
+            />
+          )}
+
+          {activeTab === 'produk' && (
+            <AdminProdukTab
+              products={products}
+              onSaveProduct={onSaveProduct}
+              onDeleteProduct={onDeleteProduct}
+            />
+          )}
+
+          {activeTab === 'ulasan' && (
+            <AdminUlasanTab
+              reviews={reviews}
+              onDeleteReview={onDeleteReview}
+            />
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      const [currentPage, setCurrentPage] = useState('katalog');
+      const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+      const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+      
+      const [products, setProducts] = useState([]);
+      const [sales, setSales] = useState([]);
+      const [expenses, setExpenses] = useState([]);
+      const [reviews, setReviews] = useState([]);
+
+      const [isLoading, setIsLoading] = useState(true);
+      const [toast, setToast] = useState(null);
+
+      const [receiptSale, setReceiptSale] = useState(null);
+      const [confirmConfig, setConfirmConfig] = useState(null);
+
+      const showToast = (message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 3500);
+      };
+
+      // Muat data publik (produk + ulasan) saat pertama kali.
+      // Jaminan produk selalu muncul di semua browser/HP:
+      //   1. Cache ditampilkan INSTAN jika tersedia (tanpa loading sama sekali)
+      //   2. API dipanggil di background untuk memperbarui data
+      //   3. Jika API gagal total, produk dari cache tetap terlihat
+      //   4. isLoading hanya true jika benar-benar belum ada data sama sekali
+      const loadPublicData = async (isBackground = false) => {
+        // Jangan gunakan get() untuk katalog utama: TTL hanya menentukan
+        // kapan refresh dilakukan, bukan kapan produk lama boleh dihapus.
+        const cachedP = SmartCache.getStale('produk');
+        const cachedR = SmartCache.getStale('review');
+        // Cache ulasan tidak boleh menghentikan skeleton katalog. Pada mobile
+        // hal ini bisa membuat katalog langsung terlihat kosong saat request
+        // produk gagal atau deployment Apps Script masih versi lama.
+        let productReady = Array.isArray(cachedP) || products.length > 0;
+
+        if (!isBackground) {
+          // Tampilkan cache segera — jangan tunda render karena menunggu API
+          if (cachedP) setProducts(cachedP);
+          if (cachedR) setReviews(cachedR);
+          // Hanya hentikan skeleton jika produk memang sudah tersedia
+          setIsLoading(!productReady);
+        }
+
+        try {
+          // Kirim kedua request bersamaan. Promise.all + catch lokal lebih
+          // kompatibel dengan Safari/Android WebView lama daripada
+          // Promise.allSettled, dan satu request gagal tidak membatalkan yang lain.
+          const [resP, resR] = await Promise.all([
+            gasCall('getPublicProduk').then(
+              (value) => ({ status: 'fulfilled', value }),
+              (reason) => ({ status: 'rejected', reason })
+            ),
+            gasCall('getReview').then(
+              (value) => ({ status: 'fulfilled', value }),
+              (reason) => ({ status: 'rejected', reason })
+            ),
+          ]);
+
+          // Produk
+          if (
+            resP.status === 'fulfilled' &&
+            resP.value &&
+            Array.isArray(resP.value.data)
+          ) {
+            // Termasuk []: cache lama harus ikut dikosongkan jika katalog
+            // memang sudah kosong di Spreadsheet.
+            setProducts(resP.value.data);
+            SmartCache.set('produk', resP.value.data);
+            productReady = true;
+          } else if (resP.status === 'rejected' || !resP.value?.data) {
+            // API gagal — pertahankan cache yang sudah ditampilkan
+            console.warn('getPublicProduk gagal, menampilkan cache:', resP.reason || resP.value?.message);
+          }
+
+          // Ulasan
+          if (resR.status === 'fulfilled' && resR.value?.data) {
+            setReviews(resR.value.data);
+            SmartCache.set('review', resR.value.data);
+          }
+        } catch (e) {
+          console.error('Error loading public data:', e);
+          // Produk dari cache tetap tampil — tidak perlu panic
+        } finally {
+          // Jangan tampilkan “Tidak ada produk” hanya karena API gagal.
+          // Tetap tampilkan skeleton agar retry berikutnya dapat memulihkan
+          // katalog, terutama pada koneksi mobile yang lambat/intermiten.
+          setIsLoading(!productReady);
+        }
+      };
+
+      // Muat data admin (penjualan + pengeluaran) hanya saat admin login
+      const loadAdminData = async () => {
+        const cachedS = SmartCache.get('penjualan');
+        const cachedE = SmartCache.get('pengeluaran');
+        if (cachedS) setSales(cachedS);
+        if (cachedE) setExpenses(cachedE);
+        try {
+          const [resS, resE] = await Promise.all([
+            gasCall('getPenjualan'),
+            gasCall('getPengeluaran'),
+          ]);
+          if (resS && resS.data) { setSales(resS.data); SmartCache.set('penjualan', resS.data); }
+          if (resE && resE.data) { setExpenses(resE.data); SmartCache.set('pengeluaran', resE.data); }
+        } catch (e) {
+          console.error('Error loading admin data:', e);
+        }
+      };
+
+      // loadInitialData dipertahankan untuk kompatibilitas refresh background
+      const loadInitialData = async (isBackground = false) => {
+        await loadPublicData(isBackground);
+        if (isAdminLoggedIn) await loadAdminData();
+      };
+
+      useEffect(() => {
+        loadPublicData(false);
+        const handleOnline = () => loadPublicData(true);
+        // Coba ulang berkala agar halaman baru pulih sendiri jika request
+        // pertama terjadi saat Apps Script/Google sedang lambat.
+        const retryTimer = window.setInterval(() => {
+          if (navigator.onLine !== false) loadPublicData(true);
+        }, 30000);
+        window.addEventListener('online', handleOnline);
+        return () => {
+          window.clearInterval(retryTimer);
+          window.removeEventListener('online', handleOnline);
+        };
+      }, []);
+
+      const handleSaveProduct = async (p) => {
+        const res = await gasCall('saveProduk', p);
+        if (res && res.data) {
+          setProducts(res.data);
+          SmartCache.set('produk', res.data);
+          showToast('Produk berhasil disimpan!');
+          return true;
+        } else {
+          showToast(res?.message || 'Gagal menyimpan produk', 'error');
+          return false;
+        }
+      };
+
+      const handleDeleteProduct = (id) => {
+        setConfirmConfig({
+          isOpen: true,
+          title: 'Hapus Produk',
+          message: 'Apakah Anda yakin ingin menghapus produk ini?',
+          onConfirm: async () => {
+            setConfirmConfig(null);
+            const res = await gasCall('deleteProduk', { ID: id });
+            if (res && res.data) {
+              setProducts(res.data);
+              SmartCache.set('produk', res.data);
+              showToast('Produk berhasil dihapus');
+            } else {
+              showToast('Gagal menghapus produk', 'error');
+            }
+          },
+        });
+      };
+
+      const handleSaveSale = async (s) => {
+        const res = await gasCall('savePenjualan', s);
+        if (res && res.data) {
+          setSales(res.data);
+          SmartCache.set('penjualan', res.data);
+          showToast('Transaksi berhasil disimpan!');
+          const savedItem = res.data.find((x) => x.NAMA_PEMBELI === s.NAMA_PEMBELI && x.HARGA === s.HARGA) || s;
+          return savedItem;
+        } else {
+          showToast(res?.message || 'Gagal menyimpan transaksi', 'error');
+          return null;
+        }
+      };
+
+      const handleDeleteSale = (id) => {
+        setConfirmConfig({
+          isOpen: true,
+          title: 'Hapus Transaksi',
+          message: 'Apakah Anda yakin ingin menghapus data transaksi ini?',
+          onConfirm: async () => {
+            setConfirmConfig(null);
+            const res = await gasCall('deletePenjualan', { ID: id });
+            if (res && res.data) {
+              setSales(res.data);
+              SmartCache.set('penjualan', res.data);
+              showToast('Transaksi berhasil dihapus');
+            } else {
+              showToast('Gagal menghapus transaksi', 'error');
+            }
+          },
+        });
+      };
+
+      const handleSaveExpense = async (e) => {
+        const res = await gasCall('savePengeluaran', e);
+        if (res && res.data) {
+          setExpenses(res.data);
+          SmartCache.set('pengeluaran', res.data);
+          showToast('Pengeluaran berhasil dicatat!');
+          return true;
+        } else {
+          showToast(res?.message || 'Gagal mencatat pengeluaran', 'error');
+          return false;
+        }
+      };
+
+      const handleDeleteExpense = (id) => {
+        setConfirmConfig({
+          isOpen: true,
+          title: 'Hapus Pengeluaran',
+          message: 'Apakah Anda yakin ingin menghapus data pengeluaran ini?',
+          onConfirm: async () => {
+            setConfirmConfig(null);
+            const res = await gasCall('deletePengeluaran', { ID: id });
+            if (res && res.data) {
+              setExpenses(res.data);
+              SmartCache.set('pengeluaran', res.data);
+              showToast('Pengeluaran berhasil dihapus');
+            } else {
+              showToast('Gagal menghapus pengeluaran', 'error');
+            }
+          },
+        });
+      };
+
+      const handleAddReview = async (r) => {
+        const res = await gasCall('addReview', r);
+        if (res && res.data) {
+          setReviews(res.data);
+          SmartCache.set('review', res.data);
+          showToast('Terima kasih atas ulasan Anda!');
+        } else {
+          showToast(res?.message || 'Gagal mengirim ulasan', 'error');
+        }
+      };
+
+      const handleUpdateReview = async (r) => {
+        const res = await gasCall('updateReview', r);
+        if (res && res.data) {
+          setReviews(res.data);
+          SmartCache.set('review', res.data);
+          showToast('Ulasan berhasil diperbarui!');
+          return true;
+        } else {
+          showToast(res?.message || 'Gagal memperbarui ulasan', 'error');
+          return false;
+        }
+      };
+
+      const handleDeleteReview = (id) => {
+        setConfirmConfig({
+          isOpen: true,
+          title: 'Hapus Ulasan',
+          message: 'Apakah Anda yakin ingin menghapus ulasan ini?',
+          onConfirm: async () => {
+            setConfirmConfig(null);
+            const res = await gasCall('deleteReview', { ID: id });
+            if (res && res.data) {
+              setReviews(res.data);
+              SmartCache.set('review', res.data);
+              showToast('Ulasan berhasil dihapus');
+            } else {
+              showToast('Gagal menghapus ulasan', 'error');
+            }
+          },
+        });
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col bg-[#F5F5F5]">
+          <Header
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            isAdminLoggedIn={isAdminLoggedIn}
+            onOpenLogin={() => setIsLoginModalOpen(true)}
+            onLogout={() => {
+              setIsAdminLoggedIn(false);
+              setCurrentPage('katalog');
+              showToast('Logout Admin berhasil');
+            }}
+          />
+
+          <main className="flex-1 flex flex-col">
+            {currentPage === 'katalog' && (
+              <KatalogPage products={products} isLoading={isLoading} onReload={() => loadPublicData(false)} />
+            )}
+
+            {currentPage === 'ulasan' && (
+              <UlasanPage
+                reviews={reviews}
+                onAddReview={handleAddReview}
+                isLoading={isLoading}
+              />
+            )}
+
+            {currentPage === 'admin' && (
+              isAdminLoggedIn ? (
+                <AdminDashboard
+                  products={products}
+                  sales={sales}
+                  expenses={expenses}
+                  reviews={reviews}
+                  onSaveProduct={handleSaveProduct}
+                  onDeleteProduct={handleDeleteProduct}
+                  onSaveSale={handleSaveSale}
+                  onDeleteSale={handleDeleteSale}
+                  onSaveExpense={handleSaveExpense}
+                  onDeleteExpense={handleDeleteExpense}
+                  onDeleteReview={handleDeleteReview}
+                  onShowReceipt={(s) => setReceiptSale(s)}
+                />
+              ) : (
+                <div className="max-w-md mx-auto my-12 p-6 bg-white neo-border neo-shadow text-center">
+                  <p className="font-extrabold mb-4">Silakan login admin untuk mengakses halaman ini.</p>
+                  <button
+                    onClick={() => setIsLoginModalOpen(true)}
+                    className="bg-[#00E5FF] neo-border neo-shadow px-6 py-2.5 font-extrabold text-xs"
+                  >
+                    Login Admin Sekarang
+                  </button>
+                </div>
+              )
+            )}
+          </main>
+
+          <Footer />
+
+          <AdminLogin
+            isOpen={isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+            onLoginSuccess={() => {
+              setIsAdminLoggedIn(true);
+              setCurrentPage('admin');
+              loadAdminData();
+            }}
+            showToast={showToast}
+          />
+
+          <StrukModal
+            isOpen={!!receiptSale}
+            sale={receiptSale}
+            onClose={() => setReceiptSale(null)}
+          />
+
+          <ConfirmModal
+            isOpen={!!confirmConfig?.isOpen}
+            title={confirmConfig?.title}
+            message={confirmConfig?.message}
+            onConfirm={confirmConfig?.onConfirm}
+            onCancel={() => setConfirmConfig(null)}
+          />
+
+          <Toast toast={toast} />
+        </div>
+      );
+    }
+
+    if (window.__dwisyaCdnGuardTimer) {
+      clearTimeout(window.__dwisyaCdnGuardTimer);
+    }
+    if (!window.React || !window.ReactDOM) {
+      console.error('[CDN] React/ReactDOM belum tersedia; aplikasi tidak dijalankan.');
+      document.getElementById('root').innerHTML =
+        '<div style="max-width:560px;margin:48px auto;padding:24px;font-family:Arial,sans-serif;' +
+        'border:2px solid #1d4ed8;background:#fff;text-align:center;color:#1e3a5f">' +
+        '<h1 style="margin:0 0 12px;font-size:22px">Gagal Memuat Halaman</h1>' +
+        '<p style="margin:0 0 18px;line-height:1.5">Library tampilan belum tersedia. ' +
+        'Silakan periksa koneksi internet dan muat ulang halaman.</p>' +
+        '<button onclick="location.reload()" style="padding:10px 16px;border:2px solid #1d4ed8;' +
+        'background:#2563eb;color:#fff;font-weight:700;cursor:pointer">Muat Ulang</button>' +
+        '</div>';
+    } else {
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    }
+  </script>
+</body>
+</html>
